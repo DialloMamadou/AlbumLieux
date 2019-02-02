@@ -1,9 +1,10 @@
 ﻿using AlbumLieux.ViewModels;
+using Storm.Mvvm.Forms;
 using Xamarin.Forms;
 
 namespace AlbumLieux
 {
-	public partial class MainPage : ContentPage
+	public partial class MainPage : BaseContentPage
 	{
 		public MainPage()
 		{

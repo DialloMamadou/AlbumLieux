@@ -1,11 +1,11 @@
 ﻿using AlbumLieux.ViewModels;
-using Xamarin.Forms;
+using Storm.Mvvm.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace AlbumLieux.Pages
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class LoginPage : ContentPage
+	public partial class LoginPage : BaseContentPage
 	{
 		public LoginPage()
 		{

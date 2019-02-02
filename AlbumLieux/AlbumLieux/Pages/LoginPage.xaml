@@ -1,7 +1,9 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="AlbumLieux.Pages.LoginPage">
+<forms:BaseContentPage
+    xmlns:forms="clr-namespace:Storm.Mvvm.Forms;assembly=Storm.Mvvm.Forms"
+    xmlns="http://xamarin.com/schemas/2014/forms" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="AlbumLieux.Pages.LoginPage">
     <StackLayout Orientation="Vertical">
         <Label Text="Email" />
         <Entry Text="{Binding Email, Mode=TwoWay}"/>
@@ -9,4 +11,4 @@
         <Entry Text="{Binding Password, Mode=TwoWay}" IsPassword="True"/>
         <Button Text="Se connecter" Clicked="Connect"/>
     </StackLayout>
-</ContentPage>
+</forms:BaseContentPage>

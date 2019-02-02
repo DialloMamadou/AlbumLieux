@@ -98,6 +98,10 @@
     <Folder Include="Resources\drawable\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\lib\StormXamarin\StormXamarin\Storm.Mvvm.Forms\Storm.Mvvm.Forms.csproj">
+      <Project>{86ce5ac0-7040-41a6-aa39-116a5a4437d1}</Project>
+      <Name>Storm.Mvvm.Forms</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AlbumLieux\AlbumLieux.csproj">
       <Project>{5E545131-3647-42BC-A155-9BC9F94FAB5F}</Project>
       <Name>AlbumLieux</Name>

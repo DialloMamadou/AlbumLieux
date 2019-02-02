@@ -1,10 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-             x:Class="AlbumLieux.DetailPage"
-             xmlns:converters="clr-namespace:AlbumLieux.Converters"
-             Title="{Binding Name}">
+<forms:BaseContentPage
+    xmlns:forms="clr-namespace:Storm.Mvvm.Forms;assembly=Storm.Mvvm.Forms"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    x:Class="AlbumLieux.DetailPage"
+    xmlns:converters="clr-namespace:AlbumLieux.Converters"
+    Title="{Binding Name}">
 
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -54,4 +56,4 @@
             <Button Text="Se connecter" Clicked="Connect" IsVisible="{Binding IsConnected, Converter={StaticResource negationConverter}"/>
         </StackLayout>
     </ContentPage.Content>
-</ContentPage>
+</forms:BaseContentPage>

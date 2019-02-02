@@ -1,17 +1,18 @@
-﻿using System;
+﻿using AlbumLieux.Services;
+using Storm.Mvvm;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace AlbumLieux
 {
-	public partial class App : Application
+	public partial class App : MvvmApplication
 	{
-		public App()
+		public App() : base(() => new MainPage())
 		{
 			InitializeComponent();
 
-			MainPage = new MainPage();
+			DependencyService.Register<IConnectedUserService, ConnectedUserService>();
 		}
 
 		protected override void OnStart()

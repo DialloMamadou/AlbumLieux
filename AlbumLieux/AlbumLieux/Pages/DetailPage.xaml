@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             x:Class="AlbumLieux.DetailPage"
+             xmlns:converters="clr-namespace:AlbumLieux.Converters"
+             Title="{Binding Name}">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:DateConverter x:Key="dateConverter" />
+            <converters:NegationConverter x:Key="negationConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+        <StackLayout
+            Orientation="Vertical"
+            >
+            <ffimageloading:CachedImage
+                VerticalOptions="Fill"
+                HorizontalOptions="Center"
+                HeightRequest="300"
+                LoadingPlaceholder="loading.png"
+                DownsampleToViewSize="True"
+                Source="{Binding ImageUrl}"/>
+            <Button
+                Text="Afficher sur la map"
+                Clicked="ShowMap"
+                />
+
+            <ListView
+                SelectionMode="None"
+                ItemsSource="{Binding CommentList}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Orientation="Vertical">
+                                <StackLayout Orientation="Horizontal">
+                                    <Label Text="{Binding PublisherName}" TextColor="Black" />
+                                    <Label Text="{Binding PublishDate, Converter={StaticResource dateConverter}}" TextColor="Gray" />
+                                </StackLayout>
+                                <Label Text="{Binding Content}" TextColor="Black"/>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <StackLayout Orientation="Vertical" IsVisible="{Binding IsConnected}">
+                <Editor x:Name="Input"  />
+                <Button Text="Publier" Clicked="PublishComment"/>
+                <Button Text="Se déconnecter" Clicked="Disconnect"/>
+            </StackLayout>
+            <Button Text="Se connecter" Clicked="Connect" IsVisible="{Binding IsConnected, Converter={StaticResource negationConverter}"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,3 @@
+[submodule "lib/StormXamarin"]
+	path = lib/StormXamarin
+	url = https://github.com/VJubert/StormXamarin.git

@@ -1,3 +1,6 @@
 [submodule "lib/StormXamarin"]
 	path = lib/StormXamarin
 	url = https://github.com/VJubert/StormXamarin.git
+[submodule "lib/Storm.Mvvm.Forms"]
+	path = lib/Storm.Mvvm.Forms
+	url = https://github.com/Julien-Mialon/Storm.Mvvm.Forms.git

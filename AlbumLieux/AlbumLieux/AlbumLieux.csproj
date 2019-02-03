@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\lib\StormXamarin\StormXamarin\Storm.Mvvm.Forms\Storm.Mvvm.Forms.csproj" />
+    <ProjectReference Include="..\..\lib\Storm.Mvvm.Forms\Storm.Mvvm.Forms\Storm.Mvvm.Forms.csproj" />
   </ItemGroup>
 
   <ItemGroup>

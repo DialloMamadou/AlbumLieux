@@ -19,10 +19,21 @@ namespace AlbumLieux.Services
 
 		public Task Connect(string email, string password)
 		{
-			IsConnected = true;
-			CurrentUserName = email.Split('@')[0];
+			if (string.IsNullOrEmpty(email))
+			{
+				//TODO WARNING
+			}
+			else if (string.IsNullOrEmpty(password))
+			{
+				//TODO WARNING
+			}
+			else
+			{
+				IsConnected = true;
+				CurrentUserName = email.Split('@')[0];
 
-			//TODO : use webservice
+				//TODO : use webservice
+			}
 
 			return Task.CompletedTask;
 		}

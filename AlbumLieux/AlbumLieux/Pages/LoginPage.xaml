@@ -4,11 +4,11 @@
     xmlns="http://xamarin.com/schemas/2014/forms" 
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="AlbumLieux.Pages.LoginPage">
-    <StackLayout Orientation="Vertical">
+    <StackLayout Orientation="Vertical" >
         <Label Text="Email" />
-        <Entry Text="{Binding Email, Mode=TwoWay}"/>
+        <Entry Text="{Binding Email, Mode=TwoWay}" Keyboard="Email"/>
         <Label Text="Password" />
-        <Entry Text="{Binding Password, Mode=TwoWay}" IsPassword="True"/>
-        <Button Text="Se connecter" Clicked="Connect"/>
+        <Entry Text="{Binding Password, Mode=TwoWay}" IsPassword="True" Keyboard="Plain"/>
+        <Button Text="Se connecter" Clicked="Connect" HorizontalOptions="Center" Padding="18,6,18,6" CornerRadius="6"/>
     </StackLayout>
 </forms:BaseContentPage>

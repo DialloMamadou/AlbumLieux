@@ -16,24 +16,19 @@
     </ContentPage.Resources>
 
     <ContentPage.Content>
-        <StackLayout
-            Orientation="Vertical"
-            >
+        <StackLayout Orientation="Vertical">
             <ffimageloading:CachedImage
-                VerticalOptions="Fill"
-                HorizontalOptions="Center"
-                HeightRequest="300"
-                LoadingPlaceholder="loading.png"
-                DownsampleToViewSize="True"
-                Source="{Binding ImageUrl}"/>
-            <Button
-                Text="Afficher sur la map"
-                Clicked="ShowMap"
-                />
-
-            <ListView
-                SelectionMode="None"
-                ItemsSource="{Binding CommentList}">
+                        VerticalOptions="Fill"
+                        HorizontalOptions="Center"
+                        HeightRequest="300"
+                        LoadingPlaceholder="loading.png"
+                        DownsampleToViewSize="True"
+                        Source="{Binding ImageUrl}"/>
+            <Button Text="Afficher sur la map" 
+                    Clicked="ShowMap"
+                    HorizontalOptions="Center" 
+                    CornerRadius="6"/>
+            <ListView SelectionMode="None" ItemsSource="{Binding CommentList}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
@@ -48,12 +43,12 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            <StackLayout Orientation="Vertical" IsVisible="{Binding IsConnected}">
-                <Editor x:Name="Input"  />
-                <Button Text="Publier" Clicked="PublishComment"/>
-                <Button Text="Se déconnecter" Clicked="Disconnect"/>
+            <StackLayout Orientation="Vertical" IsVisible="{Binding IsConnected}" Margin="12,0,12,12" >
+                <Editor x:Name="Input" Keyboard="Chat"/>
+                <Button Text="Publier" Clicked="PublishComment" CornerRadius="6"/>
+                <Button Text="Se déconnecter" Clicked="Disconnect" CornerRadius="6"/>
             </StackLayout>
-            <Button Text="Se connecter" Clicked="Connect" IsVisible="{Binding IsConnected, Converter={StaticResource negationConverter}"/>
+            <Button Text="Se connecter" Clicked="Connect" IsVisible="{Binding IsConnected, Converter={StaticResource negationConverter}" Margin="12,0,12,12" CornerRadius="6"/>
         </StackLayout>
     </ContentPage.Content>
 </forms:BaseContentPage>

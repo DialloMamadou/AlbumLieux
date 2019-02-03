@@ -159,8 +159,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\..\lib\StormXamarin\StormXamarin\Storm.Mvvm.Forms\Storm.Mvvm.Forms.csproj">
-      <Project>{86ce5ac0-7040-41a6-aa39-116a5a4437d1}</Project>
+    <ProjectReference Include="..\..\lib\Storm.Mvvm.Forms\Storm.Mvvm.Forms\Storm.Mvvm.Forms.csproj">
+      <Project>{e74ea511-9e73-4714-be42-44eb78748093}</Project>
       <Name>Storm.Mvvm.Forms</Name>
     </ProjectReference>
     <ProjectReference Include="..\AlbumLieux\AlbumLieux.csproj">

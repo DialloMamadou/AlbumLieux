@@ -74,6 +74,27 @@ namespace AlbumLieux.ViewModels
 		'image': 'https://source.unsplash.com/CdVAUADdqEc',
 		'latitude': 51.5007292,
 		'longitude': -0.1268141
+	},
+	{
+		'name': 'St. Peter's Basilica',
+		'city': 'Rome',
+		'image': 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/0_Basilique_Saint-Pierre_-_Rome_%282%29.JPG/1920px-0_Basilique_Saint-Pierre_-_Rome_%282%29.JPG'
+		'latitude': '41.8986',
+		'longitude': '12.4533'
+	},
+	{
+		'name': 'Acropolis',
+		'city': 'Athens'
+		'image': 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/The_Acropolis_of_Athens_viewed_from_the_Hill_of_the_Muses_%2814220794964%29.jpg/1280px-The_Acropolis_of_Athens_viewed_from_the_Hill_of_the_Muses_%2814220794964%29.jpg'
+		'latitude': '37.970833',
+		'longitude': '23.726111'
+	},
+	{
+		'name': ' Giza pyramid complex'
+		'city': 'Giza',
+		'image': 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Pyramids_of_the_Giza_Necropolis.jpg/1280px-Pyramids_of_the_Giza_Necropolis.jpg'
+		'latitude': '29.976111',
+		'longitude': '31.132778'
 	}
 ]
 ";

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <storm:BaseContentPage
     xmlns:storm="clr-namespace:Storm.Mvvm.Forms;assembly=Storm.Mvvm.Forms"
     xmlns="http://xamarin.com/schemas/2014/forms"
@@ -10,7 +10,7 @@
     Title="Album"
     BackgroundColor="#80cccccc">
     <controls:NativeListView ItemTapped="ListView_ItemTapped"
-              Items="{Binding SpotList}"
+              Items="{Binding SpotList}" 
               SelectionMode="None" />
     <!--<ListView >
         <ListView.ItemTemplate>

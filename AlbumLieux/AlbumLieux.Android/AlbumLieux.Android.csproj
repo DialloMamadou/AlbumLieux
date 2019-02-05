@@ -63,7 +63,11 @@
     <PackageReference Include="Xamarin.Android.Support.v7.MediaRouter" Version="27.0.2.1" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\BaseListAdapter.cs" />
+    <Compile Include="Controls\MainListAdapter.cs" />
+    <Compile Include="Controls\NativeListViewRenderer.cs" />
     <Compile Include="MainActivity.cs" />
+    <AndroidResource Include="Resources\layout\list_item_main.axml" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\MapService.cs" />

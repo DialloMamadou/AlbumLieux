@@ -18,5 +18,7 @@ namespace AlbumLieux
 
 		[JsonProperty("longitude")]
 		public double Longitude { get; set; }
+
+		public int Index { get; set; }
 	}
 }

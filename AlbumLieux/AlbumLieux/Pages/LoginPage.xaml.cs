@@ -12,13 +12,5 @@ namespace AlbumLieux.Pages
 			InitializeComponent();
 			BindingContext = new LoginViewModel();
 		}
-
-		private void Connect(object sender, System.EventArgs e)
-		{
-			if (BindingContext is LoginViewModel loginVm)
-			{
-				loginVm.ConnectCommand.Execute(null);
-			}
-		}
 	}
 }

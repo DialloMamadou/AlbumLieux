@@ -7,22 +7,30 @@
     xmlns:converters="clr-namespace:AlbumLieux.Converters"
     xmlns:controls="clr-namespace:AlbumLieux.Controls"
     x:Class="AlbumLieux.MainPage"
-    Title="Album"
-    BackgroundColor="#80cccccc">
-    <controls:NativeListView ItemTapped="ListView_ItemTapped"
+    Title="Album">
+    <!--<controls:NativeListView ItemTapped="ListView_ItemTapped"
               Items="{Binding SpotList}" 
-              SelectionMode="None" />
-    <!--<ListView >
-        <ListView.ItemTemplate>
-            <DataTemplate>
+              SelectionMode="None" />-->
+    <ListView ItemTapped="ListView_ItemTapped"
+              ItemsSource="{Binding SpotList}" 
+              SelectionMode="None" 
+              SeparatorColor="Black"
+              SeparatorVisibility="Default" 
+              RowHeight="78"
+               >
+        <ListView.ItemTemplate >
+            <DataTemplate >
                 <ViewCell>
-                    <StackLayout Orientation="Horizontal" BackgroundColor="{Binding Index, Converter={StaticResource backgroundConverter}}">
+                    <StackLayout Orientation="Horizontal" >
+                        
                         <ffimageloading:CachedImage
+                            Aspect="AspectFill"
                             Source="{Binding ImageUrl}"
                             LoadingPlaceholder="loading.png"
                             DownsampleToViewSize="True"
                             WidthRequest="78"
-                            HeightRequest="78" />
+                            HeightRequest="78"
+                            />
                         <StackLayout Orientation="Vertical" VerticalOptions="Center">
                             <Label Text="{Binding Name}" TextColor="Black"/>
                             <Label Text="{Binding City}" TextColor="#888" />
@@ -31,5 +39,5 @@
                 </ViewCell>
             </DataTemplate>
         </ListView.ItemTemplate>
-    </ListView>-->
+    </ListView>
 </storm:BaseContentPage>

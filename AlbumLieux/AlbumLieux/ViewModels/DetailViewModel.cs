@@ -63,8 +63,17 @@ namespace AlbumLieux.ViewModels
 		public bool IsConnected
 		{
 			get => _isConnected;
-			set { SetProperty(ref _isConnected, value); }
+			set => SetProperty(ref _isConnected, value);
 		}
+
+		private string _comment;
+
+		public string Comment
+		{
+			get => _comment;
+			set => SetProperty(ref _comment, value);
+		}
+
 
 		public ObservableCollection<Comment> CommentList { get; }
 
@@ -90,17 +99,15 @@ namespace AlbumLieux.ViewModels
 			OnPropertyChanged(nameof(CommentList));
 		}
 
-		private void PublishNewCommentAction(object obj)
+		private void PublishNewCommentAction()
 		{
-			if (obj is string comment)
+			CommentList.Add(new Comment
 			{
-				CommentList.Add(new Comment
-				{
-					Content = comment,
-					PublishDate = DateTime.Now,
-					PublisherName = ConnectedUserName
-				});
-			}
+				Content = Comment,
+				PublishDate = DateTime.Now,
+				PublisherName = ConnectedUserName
+			});
+			Comment = string.Empty;
 		}
 
 		public override async Task OnResume()

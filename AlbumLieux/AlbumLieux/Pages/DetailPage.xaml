@@ -16,39 +16,44 @@
     </ContentPage.Resources>
 
     <ContentPage.Content>
-        <StackLayout Orientation="Vertical">
-            <ffimageloading:CachedImage
-                        VerticalOptions="Fill"
-                        HorizontalOptions="Center"
+        <StackLayout >
+            <ScrollView>
+                <StackLayout Orientation="Vertical">
+                    <ffimageloading:CachedImage
+                        Aspect="AspectFill"
                         HeightRequest="300"
                         LoadingPlaceholder="loading.png"
                         DownsampleToViewSize="True"
                         Source="{Binding ImageUrl}"/>
-            <Button Text="Afficher sur la map" 
-                    Clicked="ShowMap"
-                    HorizontalOptions="Center" 
-                    CornerRadius="6"/>
-            <ListView SelectionMode="None" ItemsSource="{Binding CommentList}">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <StackLayout Orientation="Vertical">
-                                <StackLayout Orientation="Horizontal">
-                                    <Label Text="{Binding PublisherName}" TextColor="Black" />
-                                    <Label Text="{Binding PublishDate, Converter={StaticResource dateConverter}}" TextColor="Gray" />
-                                </StackLayout>
-                                <Label Text="{Binding Content}" TextColor="Black"/>
-                            </StackLayout>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+                    <Button Text="Afficher sur la map" Command="{Binding ShowLocationCommand}" HorizontalOptions="Center" CornerRadius="6"/>
+                    <BoxView HeightRequest="1" BackgroundColor="Gray"/>
+                    <StackLayout Orientation="Vertical" Padding="12,0,12,0">
+                        <Label Text="Commentaires : " FontAttributes="Bold"/>
+                        <ListView SelectionMode="None" ItemsSource="{Binding CommentList}" SeparatorColor="Black" HasUnevenRows="True">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <StackLayout Orientation="Vertical">
+                                            <StackLayout Orientation="Horizontal">
+                                                <Label Text="{Binding PublisherName}" TextColor="Black" FontAttributes="Italic"/>
+                                                <Label Text="{Binding PublishDate, Converter={StaticResource dateConverter}}" TextColor="Gray" FontAttributes="Italic" />
+                                            </StackLayout>
+                                            <Label Text="{Binding Content}" TextColor="Black"/>
+                                        </StackLayout>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </StackLayout>
+                </StackLayout>
+            </ScrollView>
+            <BoxView HeightRequest="1" BackgroundColor="Gray"/>
             <StackLayout Orientation="Vertical" IsVisible="{Binding IsConnected}" Margin="12,0,12,12" >
-                <Editor x:Name="Input" Keyboard="Chat"/>
-                <Button Text="Publier" Clicked="PublishComment" CornerRadius="6"/>
-                <Button Text="Se déconnecter" Clicked="Disconnect" CornerRadius="6"/>
+                <Entry Text="{Binding Comment, Mode=TwoWay}" Placeholder="Votre commentaire ..." Keyboard="Chat" ReturnCommand="{Binding PublishNewCommentCommand}" />
+                <Button Text="Publier" Command="{Binding PublishNewCommentCommand}" CornerRadius="6"/>
+                <Button Text="Se déconnecter" Command="{Binding DisconnectCommand}" CornerRadius="6"/>
             </StackLayout>
-            <Button Text="Se connecter" Clicked="Connect" IsVisible="{Binding IsConnected, Converter={StaticResource negationConverter}" Margin="12,0,12,12" CornerRadius="6"/>
+            <Button Text="Se connecter" Command="{Binding ConnectCommand}" IsVisible="{Binding IsConnected, Converter={StaticResource negationConverter}" Margin="12,0,12,12" CornerRadius="6"/>
         </StackLayout>
     </ContentPage.Content>
 </forms:BaseContentPage>

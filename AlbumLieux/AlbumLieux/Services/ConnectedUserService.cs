@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using AlbumLieux.Exceptions;
 
 namespace AlbumLieux.Services
 {
@@ -7,7 +8,7 @@ namespace AlbumLieux.Services
 	{
 		bool IsConnected { get; }
 		string CurrentUserName { get; }
-		Task Connect(string email, string password);
+		Task Connect(string username, string password);
 		Task Disconnect();
 	}
 
@@ -17,20 +18,20 @@ namespace AlbumLieux.Services
 
 		public string CurrentUserName { get; set; }
 
-		public Task Connect(string email, string password)
+		public Task Connect(string username, string password)
 		{
-			if (string.IsNullOrEmpty(email))
+			if (string.IsNullOrEmpty(username))
 			{
-				//TODO WARNING
+				throw new EmptyFieldException("username");
 			}
 			else if (string.IsNullOrEmpty(password))
 			{
-				//TODO WARNING
+				throw new EmptyFieldException("password");
 			}
 			else
 			{
 				IsConnected = true;
-				CurrentUserName = email.Split('@')[0];
+				CurrentUserName = username.Split('@')[0];
 
 				//TODO : use webservice
 			}

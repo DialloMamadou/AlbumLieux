@@ -8,12 +8,15 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
+using System.Collections.Generic;
 
 namespace AlbumLieux.ViewModels
 {
 	public class DetailViewModel : ViewModelBase
 	{
 		private readonly Lazy<IConnectedUserService> _connectedUserService = new Lazy<IConnectedUserService>(() => DependencyService.Get<IConnectedUserService>());
+
+		private string _connectedUserName { get; set; }
 
 		#region Properties
 
@@ -74,12 +77,7 @@ namespace AlbumLieux.ViewModels
 			set => SetProperty(ref _comment, value);
 		}
 
-
 		public ObservableCollection<Comment> CommentList { get; }
-
-
-		public string ConnectedUserName { get; set; }
-
 
 		#endregion
 
@@ -105,8 +103,9 @@ namespace AlbumLieux.ViewModels
 			{
 				Content = Comment,
 				PublishDate = DateTime.Now,
-				PublisherName = ConnectedUserName
+				PublisherName = _connectedUserName
 			});
+
 			Comment = string.Empty;
 		}
 
@@ -114,7 +113,7 @@ namespace AlbumLieux.ViewModels
 		{
 			await base.OnResume();
 			IsConnected = _connectedUserService.Value.IsConnected;
-			ConnectedUserName = _connectedUserService.Value.CurrentUserName;
+			_connectedUserName = _connectedUserService.Value.CurrentUserName;
 		}
 
 		public override Task OnPause()
@@ -126,7 +125,7 @@ namespace AlbumLieux.ViewModels
 		{
 			await _connectedUserService.Value.Disconnect();
 			IsConnected = _connectedUserService.Value.IsConnected;
-			ConnectedUserName = _connectedUserService.Value.CurrentUserName;
+			_connectedUserName = _connectedUserService.Value.CurrentUserName;
 		}
 
 		private async void ConnectAction(object obj)

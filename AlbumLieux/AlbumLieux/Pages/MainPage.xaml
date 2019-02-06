@@ -4,25 +4,17 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-    xmlns:converters="clr-namespace:AlbumLieux.Converters"
-    xmlns:controls="clr-namespace:AlbumLieux.Controls"
     x:Class="AlbumLieux.MainPage"
     Title="Album">
-    <!--<controls:NativeListView ItemTapped="ListView_ItemTapped"
-              Items="{Binding SpotList}" 
-              SelectionMode="None" />-->
     <ListView ItemTapped="ListView_ItemTapped"
               ItemsSource="{Binding SpotList}" 
               SelectionMode="None" 
               SeparatorColor="Black"
-              SeparatorVisibility="Default" 
-              RowHeight="78"
-               >
+              RowHeight="78">
         <ListView.ItemTemplate >
             <DataTemplate >
                 <ViewCell>
-                    <StackLayout Orientation="Horizontal" >
-                        
+                    <StackLayout Orientation="Horizontal">
                         <ffimageloading:CachedImage
                             Aspect="AspectFill"
                             Source="{Binding ImageUrl}"

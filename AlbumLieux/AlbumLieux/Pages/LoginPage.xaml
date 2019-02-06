@@ -1,19 +1,27 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <forms:BaseContentPage
     xmlns:forms="clr-namespace:Storm.Mvvm.Forms;assembly=Storm.Mvvm.Forms"
     xmlns="http://xamarin.com/schemas/2014/forms" 
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    x:Class="AlbumLieux.Pages.LoginPage">
+    x:Class="AlbumLieux.Pages.LoginPage"
+    xmlns:converters="clr-namespace:AlbumLieux.Converters">
+    
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:StringToVisibility x:Key="visibility" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
     <StackLayout Orientation="Vertical" Padding="12">
-        <Label Text="Veuillez vous inscrire pour pouvoir poster un commentaire !"
+        <Label Text="Veuillez vous connecter pour pouvoir poster un commentaire !"
                FontSize="Medium"
                HorizontalTextAlignment="Center"
                Margin="52"
                HorizontalOptions="Center"/>
-        <Label Text="Email" />
-        <Entry Text="{Binding Email, Mode=TwoWay}" Keyboard="Email"/>
-        <Label Text="Password" />
-        <Entry Text="{Binding Password, Mode=TwoWay}" IsPassword="True" ReturnCommand="{Binding ConnectCommand}" Keyboard="Plain"/>
+        <Entry Text="{Binding Username, Mode=TwoWay}" Placeholder="Username" Keyboard="Default"/>
+        <Label Text="{Binding UsernameError}" FontSize="Small" TextColor="Red" IsVisible="{Binding UsernameError, Converter={StaticResource visibility}}"/>
+        <Entry Text="{Binding Password, Mode=TwoWay}" IsPassword="True" Placeholder="Password" ReturnCommand="{Binding ConnectCommand}" Keyboard="Plain"/>
+        <Label Text="{Binding PasswordError}" FontSize="Small" TextColor="Red" IsVisible="{Binding PasswordError, Converter={StaticResource visibility}}"/>
         <Button Text="Se connecter" Command="{Binding ConnectCommand}"  HorizontalOptions="Center" Padding="18,6,18,6" CornerRadius="6"/>
     </StackLayout>
 </forms:BaseContentPage>

@@ -1,9 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Storm.Mvvm;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -66,7 +63,7 @@ namespace AlbumLieux.ViewModels
 		'name': 'Eiffel Tower',
 		'city': 'Paris',
 		'image': 'https://source.unsplash.com/HN-5Z6AmxrM',
-		'latitude': 48.8583701,
+		'latitude': 48.8583736,
 		'longitude': 2.2922926
 	},
 	{
@@ -79,23 +76,23 @@ namespace AlbumLieux.ViewModels
 	{
 		'name': 'St. Peter\'s Basilica',
 		'city': 'Rome',
-		'image': 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/0_Basilique_Saint-Pierre_-_Rome_%282%29.JPG/1920px-0_Basilique_Saint-Pierre_-_Rome_%282%29.JPG',
-		'latitude': '41.8986',
-		'longitude': '12.4533'
+		'image': 'https://lh5.googleusercontent.com/p/AF1QipNE3I7BSlSIBYYEeZmguxWQuj5Q3R8qLzilK-PP=w408-h271-k-no',
+		'latitude': 41.9019257,
+		'longitude': 12.4532193
 	},
 	{
 		'name': 'Acropolis',
 		'city': 'Athens',
-		'image': 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/The_Acropolis_of_Athens_viewed_from_the_Hill_of_the_Muses_%2814220794964%29.jpg/1280px-The_Acropolis_of_Athens_viewed_from_the_Hill_of_the_Muses_%2814220794964%29.jpg',
-		'latitude': '37.970833',
-		'longitude': '23.726111'
+		'image': 'https://lh5.googleusercontent.com/p/AF1QipPBQJlLiablvjbJ7PyvRucTbP3_JEAt3iM9N3uY=w408-h306-k-no',
+		'latitude': 37.9711625,
+		'longitude': 23.7255831
 	},
 	{
 		'name': ' Giza pyramid complex',
 		'city': 'Giza',
-		'image': 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Pyramids_of_the_Giza_Necropolis.jpg/1280px-Pyramids_of_the_Giza_Necropolis.jpg',
-		'latitude': '29.976111',
-		'longitude': '31.132778'
+		'image': 'https://lh5.googleusercontent.com/p/AF1QipN3Etp-bSjTtf7h6EwJmM7azrjgeQm050aBkXUq=w408-h271-k-no',
+		'latitude': 29.977300,
+		'longitude': 31.1303068
 	}
 ]
 ";

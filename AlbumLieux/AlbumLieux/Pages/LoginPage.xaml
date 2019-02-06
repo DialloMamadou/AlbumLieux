@@ -5,18 +5,39 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="AlbumLieux.Pages.LoginPage"
     xmlns:converters="clr-namespace:AlbumLieux.Converters">
-    
+
     <ContentPage.Resources>
         <ResourceDictionary>
             <converters:StringToVisibility x:Key="visibility" />
         </ResourceDictionary>
     </ContentPage.Resources>
-    
+
     <StackLayout Orientation="Vertical" Padding="12">
+        <ImageButton Source="ic_close"
+                     WidthRequest="24"
+                     HorizontalOptions="Start"
+                     VerticalOptions="Start"
+                     HeightRequest="24"
+                     Command="{Binding CloseCommand}">
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal">
+                        <VisualState.Setters>
+                            <Setter Property="Scale" Value="1"/>
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="Pressed">
+                        <VisualState.Setters>
+                            <Setter Property="Scale" Value="0.8"/>
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+        </ImageButton>
         <Label Text="Veuillez vous connecter pour pouvoir poster un commentaire !"
+               Margin="52,76,52,52"
                FontSize="Medium"
                HorizontalTextAlignment="Center"
-               Margin="52"
                HorizontalOptions="Center"/>
         <Entry Text="{Binding Username, Mode=TwoWay}" Placeholder="Username" Keyboard="Default"/>
         <Label Text="{Binding UsernameError}" FontSize="Small" TextColor="Red" IsVisible="{Binding UsernameError, Converter={StaticResource visibility}}"/>

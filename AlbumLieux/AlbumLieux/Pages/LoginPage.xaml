@@ -13,7 +13,7 @@
     </ContentPage.Resources>
 
     <StackLayout Orientation="Vertical" Padding="12">
-        <ImageButton Source="ic_close"
+        <ImageButton Source="ic_close.png"
                      WidthRequest="24"
                      HorizontalOptions="Start"
                      VerticalOptions="Start"

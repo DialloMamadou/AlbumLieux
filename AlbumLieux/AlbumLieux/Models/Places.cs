@@ -1,0 +1,31 @@
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
+
+namespace AlbumLieux.Models
+{
+	public class Places
+	{
+		[JsonProperty("id")]
+		public uint Id { get; set; }
+
+		[JsonProperty("title")]
+		public string Name { get; set; }
+
+		[JsonProperty("description")]
+		public string Description { get; set; }
+
+		[JsonProperty("image_id")]
+		public uint ImageId { get; set; }
+
+		public string ImageUrl => $"https://td-api.julienmialon.com/images/{ImageId}";
+
+		[JsonProperty("latitude")]
+		public double Latitude { get; set; }
+
+		[JsonProperty("longitude")]
+		public double Longitude { get; set; }
+
+		[JsonProperty("comments")]
+		public List<Comment> CommentList { get; set; }
+	}
+}

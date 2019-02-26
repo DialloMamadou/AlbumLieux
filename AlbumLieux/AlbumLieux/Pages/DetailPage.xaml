@@ -4,6 +4,7 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:models="clr-namespace:AlbumLieux.Models"
     x:Class="AlbumLieux.DetailPage"
     xmlns:converters="clr-namespace:AlbumLieux.Converters"
     Title="{Binding Name}">
@@ -31,12 +32,12 @@
                         <Label Text="Commentaires : " FontAttributes="Bold"/>
                         <ListView SelectionMode="None" ItemsSource="{Binding CommentList}" HasUnevenRows="true" SeparatorColor="Black" >
                             <ListView.ItemTemplate>
-                                <DataTemplate>
+                                <DataTemplate x:DataType="models:Comment">
                                     <ViewCell>
                                         <StackLayout Orientation="Vertical">
                                             <StackLayout Orientation="Horizontal">
-                                                <Label Text="{Binding PublisherName}" TextColor="Black" FontAttributes="Italic"/>
-                                                <Label Text="{Binding PublishDate, Converter={StaticResource dateConverter}}" TextColor="Gray" FontAttributes="Italic" />
+                                                <Label Text="{Binding Author}" TextColor="Black" FontAttributes="Italic"/>
+                                                <Label Text="{Binding Date, Converter={StaticResource dateConverter}}" TextColor="Gray" FontAttributes="Italic" />
                                             </StackLayout>
                                             <Label Text="{Binding Content}" TextColor="Black"/>
                                         </StackLayout>

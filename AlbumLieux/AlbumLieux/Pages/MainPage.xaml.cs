@@ -14,9 +14,9 @@ namespace AlbumLieux
 
 		private void ListView_ItemTapped(object sender, ItemTappedEventArgs e)
 		{
-			if (BindingContext is MainViewModel mainVm)
+			if (BindingContext is MainViewModel mainViewModel)
 			{
-				mainVm.ItemSelectedCommand.Execute(e.Item);
+				mainViewModel.ItemSelectedCommand.Execute(e.Item);
 			}
 		}
 	}

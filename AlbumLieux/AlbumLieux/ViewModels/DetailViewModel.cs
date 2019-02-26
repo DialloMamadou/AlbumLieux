@@ -8,28 +8,34 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
-using System.Collections.Generic;
 
 namespace AlbumLieux.ViewModels
 {
 	public class DetailViewModel : ViewModelBase
 	{
 		private readonly Lazy<IConnectedUserService> _connectedUserService = new Lazy<IConnectedUserService>(() => DependencyService.Get<IConnectedUserService>());
+		private readonly Lazy<IPlacesDataServices> _placesDataServices = new Lazy<IPlacesDataServices>(() => DependencyService.Get<IPlacesDataServices>());
 
 		private string _connectedUserName { get; set; }
 
 		#region Properties
 
-		private string _city;
-		[NavigationParameter("city")]
-		public string City
+		private uint _id;
+		[NavigationParameter("id")]
+		public uint Id
 		{
-			get => _city;
-			set => SetProperty(ref _city, value);
+			get { return _id; }
+			set { _id = value; }
+		}
+
+		private string _description;
+		public string Description
+		{
+			get => _description;
+			set => SetProperty(ref _description, value);
 		}
 
 		private double _latitude;
-		[NavigationParameter("latitude")]
 		public double Latitude
 		{
 			get => _latitude;
@@ -37,16 +43,13 @@ namespace AlbumLieux.ViewModels
 		}
 
 		private double _longitude;
-		[NavigationParameter("longitude")]
 		public double Longitude
 		{
 			get => _longitude;
 			set => SetProperty(ref _longitude, value);
 		}
 
-
 		private string _name;
-		[NavigationParameter("name")]
 		public string Name
 		{
 			get => _name;
@@ -54,7 +57,6 @@ namespace AlbumLieux.ViewModels
 		}
 
 		private string _imageUrl;
-		[NavigationParameter("imageUrl")]
 		public string ImageUrl
 		{
 			get => _imageUrl;
@@ -102,8 +104,8 @@ namespace AlbumLieux.ViewModels
 			CommentList.Add(new Comment
 			{
 				Content = Comment,
-				PublishDate = DateTime.Now,
-				PublisherName = _connectedUserName
+				Date = DateTime.Now,
+				Author = _connectedUserName
 			});
 
 			Comment = string.Empty;
@@ -112,13 +114,19 @@ namespace AlbumLieux.ViewModels
 		public override async Task OnResume()
 		{
 			await base.OnResume();
+			var placeTask=_placesDataServices.Value.GetPlace(Id);
+
 			IsConnected = _connectedUserService.Value.IsConnected;
 			_connectedUserName = _connectedUserService.Value.CurrentUserName;
-		}
 
-		public override Task OnPause()
-		{
-			return base.OnPause();
+			var place= await placeTask;
+			Name = place.Name;
+			Description = place.Description;
+			Latitude = place.Latitude;
+			Longitude = place.Longitude;
+			CommentList.Clear();
+			place.CommentList?.ForEach(x => CommentList.Add(x));
+			ImageUrl = place.ImageUrl;
 		}
 
 		private async void DisconnectAction(object obj)

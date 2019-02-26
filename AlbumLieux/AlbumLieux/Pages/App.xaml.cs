@@ -13,6 +13,7 @@ namespace AlbumLieux
 			InitializeComponent();
 
 			DependencyService.Register<IConnectedUserService, ConnectedUserService>();
+			DependencyService.Register<IPlacesDataServices, PlacesDataServices>();
 		}
 
 		protected override void OnStart()

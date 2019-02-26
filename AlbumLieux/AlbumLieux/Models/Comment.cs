@@ -1,13 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Newtonsoft.Json;
+using System;
 
 namespace AlbumLieux.Models
 {
 	public class Comment
 	{
-		public string PublisherName { get; set; }
-		public DateTime PublishDate { get; set; }
+		[JsonProperty("author_name")]
+		public string Author { get; set; }
+
+		[JsonProperty("date")]
+		public DateTime Date { get; set; }
+
+		[JsonProperty("text")]
 		public string Content { get; set; }
 	}
 }

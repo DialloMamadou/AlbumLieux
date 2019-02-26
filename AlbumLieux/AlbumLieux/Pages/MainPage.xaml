@@ -4,15 +4,16 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:local="clr-namespace:AlbumLieux.Models"
     x:Class="AlbumLieux.MainPage"
     Title="Album">
-    <ListView ItemTapped="ListView_ItemTapped"
-              ItemsSource="{Binding SpotList}" 
+    <ListView ItemsSource="{Binding SpotList}" 
+              ItemTapped="ListView_ItemTapped"
               SelectionMode="None" 
               SeparatorColor="Black"
               RowHeight="78">
         <ListView.ItemTemplate >
-            <DataTemplate >
+            <DataTemplate x:DataType="local:Places">
                 <ViewCell>
                     <StackLayout Orientation="Horizontal">
                         <ffimageloading:CachedImage
@@ -25,7 +26,7 @@
                             />
                         <StackLayout Orientation="Vertical" VerticalOptions="Center">
                             <Label Text="{Binding Name}" TextColor="Black"/>
-                            <Label Text="{Binding City}" TextColor="#888" />
+                            <Label Text="{Binding Description}" TextColor="#888" MaxLines="2" />
                         </StackLayout>
                     </StackLayout>
                 </ViewCell>

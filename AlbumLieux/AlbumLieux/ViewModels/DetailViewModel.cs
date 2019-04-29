@@ -13,7 +13,7 @@ namespace AlbumLieux.ViewModels
 {
 	public class DetailViewModel : ViewModelBase
 	{
-		private readonly Lazy<IConnectedUserService> _connectedUserService = new Lazy<IConnectedUserService>(() => DependencyService.Get<IConnectedUserService>());
+		private readonly Lazy<ITokenService> _tokenService = new Lazy<ITokenService>(() => DependencyService.Get<ITokenService>());
 		private readonly Lazy<IPlacesDataServices> _placesDataServices = new Lazy<IPlacesDataServices>(() => DependencyService.Get<IPlacesDataServices>());
 
 		private string _connectedUserName { get; set; }
@@ -96,7 +96,6 @@ namespace AlbumLieux.ViewModels
 			PublishNewCommentCommand = new Command(PublishNewCommentAction);
 
 			CommentList = new ObservableCollection<Comment>();
-			OnPropertyChanged(nameof(CommentList));
 		}
 
 		private void PublishNewCommentAction()
@@ -116,8 +115,8 @@ namespace AlbumLieux.ViewModels
 			await base.OnResume();
 			var placeTask=_placesDataServices.Value.GetPlace(Id);
 
-			IsConnected = _connectedUserService.Value.IsConnected;
-			_connectedUserName = _connectedUserService.Value.CurrentUserName;
+			//IsConnected = _tokenService.Value.IsConnected;
+			//_connectedUserName = _tokenService.Value.CurrentUserName;
 
 			var place= await placeTask;
 			Name = place.Name;
@@ -131,9 +130,9 @@ namespace AlbumLieux.ViewModels
 
 		private async void DisconnectAction(object obj)
 		{
-			await _connectedUserService.Value.Disconnect();
-			IsConnected = _connectedUserService.Value.IsConnected;
-			_connectedUserName = _connectedUserService.Value.CurrentUserName;
+			//await _tokenService.Value.Disconnect();
+			//IsConnected = _tokenService.Value.IsConnected;
+			//_connectedUserName = _tokenService.Value.CurrentUserName;
 		}
 
 		private async void ConnectAction(object obj)

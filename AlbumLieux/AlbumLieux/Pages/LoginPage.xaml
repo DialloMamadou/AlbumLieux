@@ -39,7 +39,7 @@
                FontSize="Medium"
                HorizontalTextAlignment="Center"
                HorizontalOptions="Center"/>
-        <Entry Text="{Binding Username, Mode=TwoWay}" Placeholder="Username" Keyboard="Default"/>
+        <Entry Text="{Binding Username, Mode=TwoWay}" Placeholder="Username" Keyboard="Default" ReturnType="Next"/>
         <Label Text="{Binding UsernameError}" FontSize="Small" TextColor="Red" IsVisible="{Binding UsernameError, Converter={StaticResource visibility}}"/>
         <Entry Text="{Binding Password, Mode=TwoWay}" IsPassword="True" Placeholder="Password" ReturnCommand="{Binding ConnectCommand}" Keyboard="Plain"/>
         <Label Text="{Binding PasswordError}" FontSize="Small" TextColor="Red" IsVisible="{Binding PasswordError, Converter={StaticResource visibility}}"/>

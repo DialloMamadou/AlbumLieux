@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<forms:BaseContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms" 
+    xmlns:forms="clr-namespace:Storm.Mvvm.Forms;assembly=Storm.Mvvm.Forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+    x:Class="AlbumLieux.Pages.ProfilePage"
+    Title="Profil">
+
+    <StackLayout HorizontalOptions="FillAndExpand"                
+                 Orientation="Vertical">
+        <ffimageloading:CachedImage
+            Source="{Binding ImageUrl}"
+            LoadingPlaceholder="default_user.png"
+            ErrorPlaceholder="default_user.png"
+            DownsampleToViewSize="True"
+            HorizontalOptions="Center"
+            WidthRequest="146"
+            HeightRequest="146">
+            <ffimageloading:CachedImage.Transformations>
+                <fftransformations:CircleTransformation/>
+            </ffimageloading:CachedImage.Transformations>
+        </ffimageloading:CachedImage>
+        <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="3">
+            <Label Text="{Binding FirstName}" TextColor="Black" />
+            <Label Text="{Binding LastName}" TextColor="Black" />
+        </StackLayout>
+        <StackLayout VerticalOptions="EndAndExpand">
+            <Button Text="Modifier mon profil" Command="{Binding UpdateMeCommand}" HorizontalOptions="FillAndExpand"/>
+            <Button Text="Modifier mon mot de passe" Command="{Binding UpdatePasswordCommand}" HorizontalOptions="FillAndExpand"/>
+            <Button Text="Deconnexion" Command="{Binding DisconnectCommand}" HorizontalOptions="FillAndExpand"/>
+        </StackLayout>
+    </StackLayout>
+
+
+</forms:BaseContentPage>

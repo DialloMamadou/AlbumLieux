@@ -7,12 +7,17 @@
     xmlns:local="clr-namespace:AlbumLieux.Models"
     x:Class="AlbumLieux.MainPage"
     Title="Album">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Command="{Binding ProfileCommand}" Icon="user.png" Order="Primary" Priority="0"/>
+    </ContentPage.ToolbarItems>
     <ListView ItemsSource="{Binding SpotList}" 
-              ItemTapped="ListView_ItemTapped"
-              SelectionMode="None" 
+              SelectedItem="{Binding SelectedPlace, Mode=TwoWay}"
               SeparatorColor="Black"
+              RefreshCommand="{Binding RefreshCommand}"
+              IsPullToRefreshEnabled="True"
+              IsRefreshing="{Binding IsBusy}"
               RowHeight="78">
-        <ListView.ItemTemplate >
+        <ListView.ItemTemplate>
             <DataTemplate x:DataType="local:Places">
                 <ViewCell>
                     <StackLayout Orientation="Horizontal">

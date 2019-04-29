@@ -17,7 +17,7 @@ namespace AlbumLieux.Models
 		[JsonProperty("image_id")]
 		public uint ImageId { get; set; }
 
-		public string ImageUrl => $"https://td-api.julienmialon.com/images/{ImageId}";
+		public string ImageUrl => $"{Constants.BASE_URL}/images/{ImageId}";
 
 		[JsonProperty("latitude")]
 		public double Latitude { get; set; }

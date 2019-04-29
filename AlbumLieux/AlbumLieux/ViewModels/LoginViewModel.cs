@@ -1,82 +1,87 @@
-﻿using AlbumLieux.Services;
+﻿using AlbumLieux.Pages;
+using AlbumLieux.Services;
 using Storm.Mvvm;
+using System;
 using System.Windows.Input;
 using Xamarin.Forms;
-using AlbumLieux.Exceptions;
 
 namespace AlbumLieux.ViewModels
 {
-	public class LoginViewModel : ViewModelBase
-	{
-		private string _username;
-		public string Username
-		{
-			get => _username;
-			set
-			{
-				SetProperty(ref _username, value);
-				UsernameError = null;
-			}
-		}
+    public class LoginViewModel : ViewModelBase
+    {
+        private readonly Lazy<IUserDataService> _userService;
 
-		private string _usernameError;
-		public string UsernameError
-		{
-			get => _usernameError;
-			set => SetProperty(ref _usernameError, value);
-		}
+        #region Property
 
-		private string _password;
-		public string Password
-		{
-			get => _password;
-			set
-			{
-				SetProperty(ref _password, value);
-				PasswordError = null;
-			}
-		}
+        private string _username;
+        public string Username
+        {
+            get => _username;
+            set
+            {
+                SetProperty(ref _username, value);
+                UsernameError = null;
+            }
+        }
 
-		private string _passwordError;
-		public string PasswordError
-		{
-			get => _passwordError;
-			set => SetProperty(ref _passwordError, value);
-		}
+        private string _usernameError;
+        public string UsernameError
+        {
+            get => _usernameError;
+            set => SetProperty(ref _usernameError, value);
+        }
 
-		public ICommand ConnectCommand { get; }
-		public ICommand CloseCommand { get; }
+        private string _password;
+        public string Password
+        {
+            get => _password;
+            set
+            {
+                SetProperty(ref _password, value);
+                PasswordError = null;
+            }
+        }
 
-		public LoginViewModel()
-		{
-			ConnectCommand = new Command(ConnectAction);
-			CloseCommand = new Command(CloseAction);
-		}
+        private string _passwordError;
+        public string PasswordError
+        {
+            get => _passwordError;
+            set => SetProperty(ref _passwordError, value);
+        }
 
-		private async void CloseAction()
-		{
-			await NavigationService.PopAsync();
-		}
+        #endregion
 
-		private async void ConnectAction()
-		{
-			try
-			{
-				UsernameError = null;
-				PasswordError = null;
+        public ICommand ConnectCommand { get; }
 
-				var connectService = DependencyService.Get<IConnectedUserService>();
-				await connectService.Connect(Username, Password);
-				await NavigationService.PopAsync();
-			}
-			catch (EmptyFieldException userEx) when (userEx.FieldName == "username")
-			{
-				UsernameError = "Veuillez remplir votre username";
-			}
-			catch (EmptyFieldException passEx) when (passEx.FieldName == "password")
-			{
-				PasswordError = "Veuillez remplir votre mot de passe";
-			}
-		}
-	}
+        public LoginViewModel()
+        {
+            _userService = new Lazy<IUserDataService>(() => DependencyService.Resolve<IUserDataService>());
+            ConnectCommand = new Command(ConnectAction);
+        }
+
+        private async void ConnectAction()
+        {
+            bool error = false;
+            UsernameError = null;
+            PasswordError = null;
+            if (string.IsNullOrEmpty(Username))
+            {
+                UsernameError = "Veuillez remplir votre username";
+                error = true;
+            }
+
+            if (string.IsNullOrEmpty(Password))
+            {
+                PasswordError = "Veuillez remplir votre mot de passe";
+                error = false;
+            }
+
+            if (!error)
+            {
+                await _userService.Value.Connect(Username, Password);
+                await NavigationService.PopAsync();
+                await NavigationService.PushAsync<ProfilePage>();
+            }
+        }
+    }
 }

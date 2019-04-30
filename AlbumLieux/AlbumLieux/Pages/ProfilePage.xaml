@@ -12,6 +12,7 @@
                  Orientation="Vertical">
         <ffimageloading:CachedImage
             Source="{Binding ImageUrl}"
+            Margin="0,12,0,0"
             LoadingPlaceholder="default_user.png"
             ErrorPlaceholder="default_user.png"
             DownsampleToViewSize="True"

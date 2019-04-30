@@ -13,36 +13,10 @@
     </ContentPage.Resources>
 
     <StackLayout Orientation="Vertical" Padding="12">
-        <ImageButton Source="ic_close.png"
-                     WidthRequest="24"
-                     HorizontalOptions="Start"
-                     VerticalOptions="Start"
-                     HeightRequest="24"
-                     Command="{Binding CloseCommand}">
-            <VisualStateManager.VisualStateGroups>
-                <VisualStateGroup x:Name="CommonStates">
-                    <VisualState x:Name="Normal">
-                        <VisualState.Setters>
-                            <Setter Property="Scale" Value="1"/>
-                        </VisualState.Setters>
-                    </VisualState>
-                    <VisualState x:Name="Pressed">
-                        <VisualState.Setters>
-                            <Setter Property="Scale" Value="0.8"/>
-                        </VisualState.Setters>
-                    </VisualState>
-                </VisualStateGroup>
-            </VisualStateManager.VisualStateGroups>
-        </ImageButton>
-        <Label Text="Veuillez vous connecter pour pouvoir poster un commentaire !"
-               Margin="52,76,52,52"
-               FontSize="Medium"
-               HorizontalTextAlignment="Center"
-               HorizontalOptions="Center"/>
-        <Entry Text="{Binding Username, Mode=TwoWay}" Placeholder="Username" Keyboard="Default" ReturnType="Next"/>
+        <Entry Text="{Binding Username}" Placeholder="Username" Keyboard="Email" ReturnType="Next"/>
         <Label Text="{Binding UsernameError}" FontSize="Small" TextColor="Red" IsVisible="{Binding UsernameError, Converter={StaticResource visibility}}"/>
-        <Entry Text="{Binding Password, Mode=TwoWay}" IsPassword="True" Placeholder="Password" ReturnCommand="{Binding ConnectCommand}" Keyboard="Plain"/>
+        <Entry Text="{Binding Password}" IsPassword="True" Placeholder="Password" ReturnCommand="{Binding ConnectCommand}" Keyboard="Plain"/>
         <Label Text="{Binding PasswordError}" FontSize="Small" TextColor="Red" IsVisible="{Binding PasswordError, Converter={StaticResource visibility}}"/>
-        <Button Text="Se connecter" Command="{Binding ConnectCommand}"  HorizontalOptions="Center" Padding="18,6,18,6" CornerRadius="6"/>
+        <Button Text="Se connecter" Command="{Binding ConnectCommand}" />
     </StackLayout>
 </forms:BaseContentPage>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using Xamarin.Forms;
+
 namespace AlbumLieux.Converters
 {
 	/// <summary>

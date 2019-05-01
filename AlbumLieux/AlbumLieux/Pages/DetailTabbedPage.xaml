@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+            xmlns:models="clr-namespace:AlbumLieux.Models"
+            xmlns:converters="clr-namespace:AlbumLieux.Converters"
+            xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+            xmlns:views="clr-namespace:AlbumLieux.Views"
+            x:Class="AlbumLieux.Pages.DetailTabbedPage"
+            Title="{Binding Name}"
+            >
+    <TabbedPage.Resources>
+        <ResourceDictionary>
+            <converters:DateConverter x:Key="dateConverter" />
+            <converters:NegationConverter x:Key="negationConverter" />
+        </ResourceDictionary>
+    </TabbedPage.Resources>
+    <ContentPage Title="Detail" >
+        <ScrollView VerticalScrollBarVisibility="Never">
+            <StackLayout HorizontalOptions="FillAndExpand">
+                <ffimageloading:CachedImage
+                        Aspect="AspectFill"
+                        HeightRequest="242"
+                        LoadingPlaceholder="loading.png"
+                        Source="{Binding ImageUrl}"/>
+                <Label Text="{Binding Name}" HorizontalOptions="Center" FontSize="Large"/>
+                <Label Text="{Binding Description}"/>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage>
+    <ContentPage Title="Map">
+    </ContentPage>
+    <ContentPage Title="Commentaires">
+        <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand">
+            <ListView SelectionMode="None" ItemsSource="{Binding CommentList}" HasUnevenRows="true" SeparatorColor="Black" >
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Comment">
+                        <ViewCell>
+                            <StackLayout Orientation="Vertical">
+                                <StackLayout Orientation="Horizontal">
+                                    <ffimageloading:CachedImage
+                                        HeightRequest="30"
+                                        WidthRequest="30"
+                                        LoadingPlaceholder="default_user.png"
+                                        ErrorPlaceholder="default_user.png"
+                                        Source="{Binding Author.ImageUrl}">
+                                        <ffimageloading:CachedImage.Transformations>
+                                            <fftransformations:CircleTransformation/>
+                                        </ffimageloading:CachedImage.Transformations>
+                                    </ffimageloading:CachedImage>
+                                    <StackLayout Orientation="Vertical" Margin="12,0,0,0">
+                                        <Label Text="{Binding Author.Name}" TextColor="Black" FontAttributes="Italic"/>
+                                        <Label Text="{Binding Date, Converter={StaticResource dateConverter}}" TextColor="Gray" FontAttributes="Italic" />
+                                    </StackLayout>
+                                </StackLayout>
+                                <Label Text="{Binding Content}" TextColor="Black"/>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" IsVisible="{Binding IsConnected}">
+                <Entry Text="{Binding Comment}" Placeholder="Votre commentaire ..." ReturnCommand="{Binding PublishNewCommentCommand}" HorizontalOptions="FillAndExpand"/>
+                <Button Text="Envoyer" Command="{Binding PublishNewCommentCommand}" HorizontalOptions="End"/>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage>
+</TabbedPage>

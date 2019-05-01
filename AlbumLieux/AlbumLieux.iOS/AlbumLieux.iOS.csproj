@@ -92,7 +92,6 @@
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
-    <Compile Include="Services\MapService.cs" />
     <None Include="Entitlements.plist" />
     <None Include="Info.plist" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -165,14 +164,30 @@
     <ImageAsset Include="Assets.xcassets\ic_close.imageset\ic_close%403x.png">
       <Visible>false</Visible>
     </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\default_user.imageset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\default_user.imageset\default_user%401x.png" />
-    <ImageAsset Include="Assets.xcassets\default_user.imageset\default_user%402x.png" />
-    <ImageAsset Include="Assets.xcassets\default_user.imageset\default_user%403x.png" />
-    <ImageAsset Include="Assets.xcassets\user.imageset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\user.imageset\user%401x.png" />
-    <ImageAsset Include="Assets.xcassets\user.imageset\user%402x.png" />
-    <ImageAsset Include="Assets.xcassets\user.imageset\user%403x.png" />
+    <ImageAsset Include="Assets.xcassets\default_user.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\default_user.imageset\default_user%401x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\default_user.imageset\default_user%402x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\default_user.imageset\default_user%403x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\user.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\user.imageset\user%401x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\user.imageset\user%402x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\user.imageset\user%403x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -187,6 +202,12 @@
     <PackageReference Include="Newtonsoft.Json">
       <Version>12.0.2</Version>
     </PackageReference>
+    <PackageReference Include="Xam.Plugin.Geolocator">
+      <Version>4.5.0.6</Version>
+    </PackageReference>
+    <PackageReference Include="Xam.Plugin.Media">
+      <Version>4.0.1.5</Version>
+    </PackageReference>
     <PackageReference Include="Xamarin.FFImageLoading.Forms">
       <Version>2.4.6.929</Version>
     </PackageReference>
@@ -194,6 +215,9 @@
       <Version>2.4.6.929</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Forms" Version="3.6.0.344457" />
+    <PackageReference Include="Xamarin.Forms.Maps">
+      <Version>3.6.0.344457</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>

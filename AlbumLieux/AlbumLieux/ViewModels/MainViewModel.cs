@@ -99,7 +99,7 @@ namespace AlbumLieux.ViewModels
 
 		private async void OnItemClicked(Places obj)
 		{
-			await NavigationService.PushAsync<DetailPage>(new Dictionary<string, object>
+			await NavigationService.PushAsync<DetailTabbedPage>(new Dictionary<string, object>
 			{
 				["id"] = obj.Id
 			});

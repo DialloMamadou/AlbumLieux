@@ -1,5 +1,4 @@
 ﻿using AlbumLieux.Models;
-using AlbumLieux.Pages;
 using AlbumLieux.Services;
 using Storm.Mvvm;
 using Storm.Mvvm.Navigation;
@@ -11,140 +10,107 @@ using Xamarin.Forms;
 
 namespace AlbumLieux.ViewModels
 {
-	public class DetailViewModel : ViewModelBase
-	{
-		private readonly Lazy<ITokenService> _tokenService = new Lazy<ITokenService>(() => DependencyService.Get<ITokenService>());
-		private readonly Lazy<IPlacesDataServices> _placesDataServices = new Lazy<IPlacesDataServices>(() => DependencyService.Get<IPlacesDataServices>());
+    public class DetailViewModel : ViewModelBase
+    {
+        private readonly Lazy<ITokenService> _tokenService = new Lazy<ITokenService>(() => DependencyService.Get<ITokenService>());
+        private readonly Lazy<IPlacesDataServices> _placeService = new Lazy<IPlacesDataServices>(() => DependencyService.Get<IPlacesDataServices>());
 
-		private string _connectedUserName { get; set; }
+        #region Properties
 
-		#region Properties
+        [NavigationParameter("id")]
+        public uint Id { get; set; }
 
-		private uint _id;
-		[NavigationParameter("id")]
-		public uint Id
-		{
-			get { return _id; }
-			set { _id = value; }
-		}
+        private string _description;
+        public string Description
+        {
+            get => _description;
+            set => SetProperty(ref _description, value);
+        }
 
-		private string _description;
-		public string Description
-		{
-			get => _description;
-			set => SetProperty(ref _description, value);
-		}
+        private double _latitude;
+        public double Latitude
+        {
+            get => _latitude;
+            set => SetProperty(ref _latitude, value);
+        }
 
-		private double _latitude;
-		public double Latitude
-		{
-			get => _latitude;
-			set => SetProperty(ref _latitude, value);
-		}
+        private double _longitude;
+        public double Longitude
+        {
+            get => _longitude;
+            set => SetProperty(ref _longitude, value);
+        }
 
-		private double _longitude;
-		public double Longitude
-		{
-			get => _longitude;
-			set => SetProperty(ref _longitude, value);
-		}
+        private string _name;
+        public string Name
+        {
+            get => _name;
+            set => SetProperty(ref _name, value);
+        }
 
-		private string _name;
-		public string Name
-		{
-			get => _name;
-			set => SetProperty(ref _name, value);
-		}
+        private string _imageUrl;
+        public string ImageUrl
+        {
+            get => _imageUrl;
+            set => SetProperty(ref _imageUrl, value);
+        }
 
-		private string _imageUrl;
-		public string ImageUrl
-		{
-			get => _imageUrl;
-			set => SetProperty(ref _imageUrl, value);
-		}
+        private bool _isConnected;
 
-		private bool _isConnected;
+        public bool IsConnected
+        {
+            get => _isConnected;
+            set => SetProperty(ref _isConnected, value);
+        }
 
-		public bool IsConnected
-		{
-			get => _isConnected;
-			set => SetProperty(ref _isConnected, value);
-		}
+        private string _comment;
 
-		private string _comment;
+        public string Comment
+        {
+            get => _comment;
+            set => SetProperty(ref _comment, value);
+        }
 
-		public string Comment
-		{
-			get => _comment;
-			set => SetProperty(ref _comment, value);
-		}
+        public ObservableCollection<Comment> CommentList { get; }
 
-		public ObservableCollection<Comment> CommentList { get; }
+        #endregion
 
-		#endregion
+        public ICommand PublishNewCommentCommand { get; }
 
-		public ICommand ConnectCommand { get; }
-		public ICommand DisconnectCommand { get; }
-		public ICommand PublishNewCommentCommand { get; }
-		public ICommand ShowLocationCommand { get; }
+        public DetailViewModel()
+        {
+            PublishNewCommentCommand = new Command(PublishNewCommentAction);
 
-		public DetailViewModel()
-		{
-			ShowLocationCommand = new Command(ShowLocationAction);
-			ConnectCommand = new Command(ConnectAction);
-			DisconnectCommand = new Command(DisconnectAction);
-			PublishNewCommentCommand = new Command(PublishNewCommentAction);
+            CommentList = new ObservableCollection<Comment>();
+        }
 
-			CommentList = new ObservableCollection<Comment>();
-		}
+        public override async Task OnResume()
+        {
+            await base.OnResume();
+            await ReloadPlace();
+            IsConnected = _tokenService.Value.HasToken();
+        }
 
-		private void PublishNewCommentAction()
-		{
-			CommentList.Add(new Comment
-			{
-				Content = Comment,
-				Date = DateTime.Now,
-				Author = _connectedUserName
-			});
+        private async Task ReloadPlace()
+        {
+            var place = await _placeService.Value.GetPlace(Id);
+            Name = place.Name;
+            Description = place.Description;
+            Latitude = place.Latitude;
+            Longitude = place.Longitude;
+            CommentList.Clear();
+            place.CommentList?.ForEach(x => CommentList.Add(x));
+            ImageUrl = place.ImageUrl;
+        }
 
-			Comment = string.Empty;
-		}
-
-		public override async Task OnResume()
-		{
-			await base.OnResume();
-			var placeTask=_placesDataServices.Value.GetPlace(Id);
-
-			//IsConnected = _tokenService.Value.IsConnected;
-			//_connectedUserName = _tokenService.Value.CurrentUserName;
-
-			var place= await placeTask;
-			Name = place.Name;
-			Description = place.Description;
-			Latitude = place.Latitude;
-			Longitude = place.Longitude;
-			CommentList.Clear();
-			place.CommentList?.ForEach(x => CommentList.Add(x));
-			ImageUrl = place.ImageUrl;
-		}
-
-		private async void DisconnectAction(object obj)
-		{
-			//await _tokenService.Value.Disconnect();
-			//IsConnected = _tokenService.Value.IsConnected;
-			//_connectedUserName = _tokenService.Value.CurrentUserName;
-		}
-
-		private async void ConnectAction(object obj)
-		{
-			await NavigationService.PushAsync<LoginPage>(mode: Storm.Mvvm.Services.NavigationMode.Modal);
-		}
-
-		private async void ShowLocationAction(object _)
-		{
-			var mapService = DependencyService.Get<IMapService>();
-
-			await mapService.ShowMap(Latitude, Longitude, Name);
-		}
-	}
+        private async void PublishNewCommentAction()
+        {
+            if (!string.IsNullOrEmpty(Comment))
+            {
+                await _placeService.Value.PostComment(Id, Comment);
+                Comment = string.Empty;
+                await ReloadPlace();
+            }
+        }
+    }
 }

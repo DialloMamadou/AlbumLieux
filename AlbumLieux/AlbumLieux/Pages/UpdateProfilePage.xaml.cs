@@ -1,4 +1,5 @@
-﻿using Storm.Mvvm.Forms;
+﻿using AlbumLieux.ViewModels;
+using Storm.Mvvm.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace AlbumLieux.Pages
@@ -9,6 +10,7 @@ namespace AlbumLieux.Pages
         public UpdateProfilePage()
         {
             InitializeComponent();
+            BindingContext = new UpdateProfileViewModel();
         }
     }
 }

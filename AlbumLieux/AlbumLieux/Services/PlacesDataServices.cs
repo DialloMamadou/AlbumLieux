@@ -1,4 +1,5 @@
 ﻿using AlbumLieux.Models;
+using AlbumLieux.Models.Requests;
 using MonkeyCache.SQLite;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,8 @@ namespace AlbumLieux.Services
         Task<List<Places>> ListPlaces(bool force = false);
 
         Task<Places> GetPlace(uint id);
+
+        Task PostComment(uint id, string text);
     }
 
     public class PlacesDataServices : BaseDataService, IPlacesDataServices
@@ -49,6 +52,14 @@ namespace AlbumLieux.Services
                     return null;
                 }
             }
+        }
+
+        public Task PostComment(uint id, string text)
+        {
+            return PostAsync($"places/{id}/comments", new PostCommentRequest
+            {
+                Text = text
+            }, authenticated: true);
         }
     }
 }

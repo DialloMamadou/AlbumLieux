@@ -16,6 +16,8 @@ namespace AlbumLieux.Models
         [JsonProperty("image_id")]
         public int? ImageId { get; set; }
 
+        public string Name => $"{FirstName} {LastName}";
+
         public string ImageUrl => $"{Constants.BASE_URL}/images/{ImageId}";
     }
 }

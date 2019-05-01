@@ -10,15 +10,10 @@ namespace AlbumLieux.Services
     public abstract class BaseDataService
     {
         private readonly Lazy<ITokenService> _tokenService;
-        private readonly JsonSerializerSettings _jsonSettings;
 
         protected BaseDataService()
         {
             _tokenService = new Lazy<ITokenService>(() => DependencyService.Resolve<ITokenService>());
-            _jsonSettings = new JsonSerializerSettings
-            {
-                NullValueHandling = NullValueHandling.Ignore
-            };
         }
 
         protected async Task<Response<T>> GetAsync<T>(string uri, bool authenticated = false)
@@ -33,10 +28,25 @@ namespace AlbumLieux.Services
             return JsonConvert.DeserializeObject<Response<T>>(contentResponse);
         }
 
+        protected async Task<Response> PostAsync<TRequest>(string uri, TRequest data, bool authenticated = false)
+        {
+            var msg = new HttpRequestMessage(HttpMethod.Post, uri);
+            var body = JsonConvert.SerializeObject(data).ToStringContent();
+            msg.Content = body;
+            if (authenticated)
+            {
+                await SetAuthenticationToken(msg);
+            }
+
+            var response = await SendRequest(msg);
+            var contentResponse = await response.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<Response>(contentResponse);
+        }
+
         protected async Task<Response<TResult>> PostAsync<TResult, TRequest>(string uri, TRequest data, bool authenticated = false)
         {
             var msg = new HttpRequestMessage(HttpMethod.Post, uri);
-            var body = JsonConvert.SerializeObject(data, _jsonSettings).ToStringContent();
+            var body = JsonConvert.SerializeObject(data).ToStringContent();
             msg.Content = body;
             if (authenticated)
             {
@@ -51,7 +61,7 @@ namespace AlbumLieux.Services
         protected async Task<Response<TResult>> PatchAsync<TResult, TRequest>(string uri, TRequest data, bool authenticated = false)
         {
             var msg = new HttpRequestMessage(new HttpMethod("PATCH"), uri);
-            var body = JsonConvert.SerializeObject(data, _jsonSettings).ToStringContent();
+            var body = JsonConvert.SerializeObject(data).ToStringContent();
             msg.Content = body;
             if (authenticated)
             {

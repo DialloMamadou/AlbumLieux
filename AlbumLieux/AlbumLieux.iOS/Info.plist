@@ -34,5 +34,11 @@
 	<string>AlbumLieux</string>
 	<key>XSAppIconAssets</key>
 	<string>Assets.xcassets/AppIcon.appiconset</string>
+	<key>NSCameraUsageDescription</key>
+	<string>L&apos;application aurait besoin d&apos;utiliser l&apos;appareil photo pour prendre une photo pour le lieu ou pour votre profile</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>L&apos;application aurait besoin d&apos;utiliser la galerie photo pour votre profil ou pou un nouveau lieu</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>L&apos;application aurait besoin d&apos;accéder à votre localisation pour vous situer par rapport aux différents lieux présentés dans l&apos;application</string>
 </dict>
 </plist>

@@ -28,9 +28,9 @@
                             DownsampleToViewSize="True"
                             WidthRequest="78"
                             HeightRequest="78"
-                            />
+                        />
                         <StackLayout Orientation="Vertical" VerticalOptions="Center">
-                            <Label Text="{Binding Name}" TextColor="Black"/>
+                            <Label Text="{Binding Title}" TextColor="Black"/>
                             <Label Text="{Binding Description}" TextColor="#888" MaxLines="2" />
                         </StackLayout>
                     </StackLayout>

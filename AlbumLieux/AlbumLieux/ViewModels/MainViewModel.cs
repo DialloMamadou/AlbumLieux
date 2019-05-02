@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
+using Plugin.Geolocator.Abstractions;
+using System.Linq;
 
 namespace AlbumLieux.ViewModels
 {
@@ -14,6 +16,7 @@ namespace AlbumLieux.ViewModels
 	{
 		private readonly Lazy<IPlacesDataServices> _placesService = new Lazy<IPlacesDataServices>(() => DependencyService.Get<IPlacesDataServices>());
 		private readonly Lazy<ITokenService> _tokenService = new Lazy<ITokenService>(() => DependencyService.Get<ITokenService>());
+		private readonly Lazy<IGeolocationService> _geoService = new Lazy<IGeolocationService>(() => DependencyService.Get<IGeolocationService>());
 
 		public ICommand RefreshCommand { get; }
 		public ICommand ProfileCommand { get; }
@@ -60,11 +63,9 @@ namespace AlbumLieux.ViewModels
 			{
 				await base.OnResume();
 
-				if (SpotList == null)
-				{
-					IsBusy = true;
-					SpotList = await _placesService.Value.ListPlaces();
-				}
+				IsBusy = true;
+
+				await RefreshList();
 
 				SelectedPlace = null;
 			}
@@ -90,14 +91,26 @@ namespace AlbumLieux.ViewModels
 			}
 		}
 
+		private async Task RefreshList(bool force = false)
+		{
+			var list = await _placesService.Value.ListPlaces(true);
+			var position = await _geoService.Value.GetMyPosition();
+
+			SpotList = list.Select(x =>
+			{
+				x.DistanceToMe = position.CalculateDistance(new Position(x.Latitude, x.Longitude), GeolocatorUtils.DistanceUnits.Kilometers);
+				return x;
+			}).OrderBy(x => x.DistanceToMe).ToList();
+		}
+
 		private async void RefreshAction()
 		{
 			IsBusy = true;
-			SpotList = await _placesService.Value.ListPlaces(true);
+			await RefreshList(true);
 			IsBusy = false;
 		}
 
-		private async void OnItemClicked(Places obj)
+		private async Task OnItemClicked(Places obj)
 		{
 			await NavigationService.PushAsync<DetailTabbedPage>(new Dictionary<string, object>
 			{

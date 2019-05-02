@@ -1,5 +1,7 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using Xamarin.Forms.Maps;
 
 namespace AlbumLieux.Models
 {
@@ -9,7 +11,7 @@ namespace AlbumLieux.Models
 		public uint Id { get; set; }
 
 		[JsonProperty("title")]
-		public string Name { get; set; }
+		public string Title { get; set; }
 
 		[JsonProperty("description")]
 		public string Description { get; set; }
@@ -27,5 +29,8 @@ namespace AlbumLieux.Models
 
 		[JsonProperty("comments")]
 		public List<Comment> CommentList { get; set; }
+
+		[JsonIgnore]
+		public double DistanceToMe { get; set; }
 	}
 }

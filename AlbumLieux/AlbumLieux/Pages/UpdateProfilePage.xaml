@@ -1,7 +1,32 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <forms:BaseContentPage
     xmlns:forms="clr-namespace:Storm.Mvvm.Forms;assembly=Storm.Mvvm.Forms"
     xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="AlbumLieux.Pages.UpdateProfilePage">
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="AlbumLieux.Pages.UpdateProfilePage"
+    Title="Mise à jour profil">
+    <ScrollView>
+        <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand">
+            <ffimageloading:CachedImage 
+                Source="{Binding ImageUrl}"
+                Margin="0,12,0,0"
+                LoadingPlaceholder="default_user.png"
+                ErrorPlaceholder="default_user.png"
+                DownsampleToViewSize="True"
+                HorizontalOptions="Center"
+                WidthRequest="146"
+                HeightRequest="146"
+                />
+            <StackLayout Orientation="Horizontal"
+                         HorizontalOptions="Center">
+                <Button Text="Galerie" Command="{Binding UpdateImageFromGalleryCommand}"/>
+                <Button Text="Appareil photp" Command="{Binding UpdateImageFromPhotoCommand}"/>
+            </StackLayout>
+            <Entry Text="{Binding FirstName}"/>
+            <Entry Text="{Binding LastName}"/>
+            <Button Text="Mettre à jour" Command="{Binding UpdateCommand}"/>
+        </StackLayout>
+    </ScrollView>
 </forms:BaseContentPage>

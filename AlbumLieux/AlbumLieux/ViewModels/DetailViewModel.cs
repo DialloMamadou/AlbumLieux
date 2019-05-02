@@ -10,107 +10,107 @@ using Xamarin.Forms;
 
 namespace AlbumLieux.ViewModels
 {
-    public class DetailViewModel : ViewModelBase
-    {
-        private readonly Lazy<ITokenService> _tokenService = new Lazy<ITokenService>(() => DependencyService.Get<ITokenService>());
-        private readonly Lazy<IPlacesDataServices> _placeService = new Lazy<IPlacesDataServices>(() => DependencyService.Get<IPlacesDataServices>());
+	public class DetailViewModel : ViewModelBase
+	{
+		private readonly Lazy<ITokenService> _tokenService = new Lazy<ITokenService>(() => DependencyService.Get<ITokenService>());
+		private readonly Lazy<IPlacesDataServices> _placeService = new Lazy<IPlacesDataServices>(() => DependencyService.Get<IPlacesDataServices>());
 
-        #region Properties
+		#region Properties
 
-        [NavigationParameter("id")]
-        public uint Id { get; set; }
+		[NavigationParameter("id")]
+		public uint Id { get; set; }
 
-        private string _description;
-        public string Description
-        {
-            get => _description;
-            set => SetProperty(ref _description, value);
-        }
+		private string _description;
+		public string Description
+		{
+			get => _description;
+			set => SetProperty(ref _description, value);
+		}
 
-        private double _latitude;
-        public double Latitude
-        {
-            get => _latitude;
-            set => SetProperty(ref _latitude, value);
-        }
+		private double _latitude;
+		public double Latitude
+		{
+			get => _latitude;
+			set => SetProperty(ref _latitude, value);
+		}
 
-        private double _longitude;
-        public double Longitude
-        {
-            get => _longitude;
-            set => SetProperty(ref _longitude, value);
-        }
+		private double _longitude;
+		public double Longitude
+		{
+			get => _longitude;
+			set => SetProperty(ref _longitude, value);
+		}
 
-        private string _name;
-        public string Name
-        {
-            get => _name;
-            set => SetProperty(ref _name, value);
-        }
+		private string _name;
+		public string Name
+		{
+			get => _name;
+			set => SetProperty(ref _name, value);
+		}
 
-        private string _imageUrl;
-        public string ImageUrl
-        {
-            get => _imageUrl;
-            set => SetProperty(ref _imageUrl, value);
-        }
+		private string _imageUrl;
+		public string ImageUrl
+		{
+			get => _imageUrl;
+			set => SetProperty(ref _imageUrl, value);
+		}
 
-        private bool _isConnected;
+		private bool _isConnected;
 
-        public bool IsConnected
-        {
-            get => _isConnected;
-            set => SetProperty(ref _isConnected, value);
-        }
+		public bool IsConnected
+		{
+			get => _isConnected;
+			set => SetProperty(ref _isConnected, value);
+		}
 
-        private string _comment;
+		private string _comment;
 
-        public string Comment
-        {
-            get => _comment;
-            set => SetProperty(ref _comment, value);
-        }
+		public string Comment
+		{
+			get => _comment;
+			set => SetProperty(ref _comment, value);
+		}
 
-        public ObservableCollection<Comment> CommentList { get; }
+		public ObservableCollection<Comment> CommentList { get; }
 
-        #endregion
+		#endregion
 
-        public ICommand PublishNewCommentCommand { get; }
+		public ICommand PublishNewCommentCommand { get; }
 
-        public DetailViewModel()
-        {
-            PublishNewCommentCommand = new Command(PublishNewCommentAction);
+		public DetailViewModel()
+		{
+			PublishNewCommentCommand = new Command(PublishNewCommentAction);
 
-            CommentList = new ObservableCollection<Comment>();
-        }
+			CommentList = new ObservableCollection<Comment>();
+		}
 
-        public override async Task OnResume()
-        {
-            await base.OnResume();
-            await ReloadPlace();
-            IsConnected = _tokenService.Value.HasToken();
-        }
+		public override async Task OnResume()
+		{
+			await base.OnResume();
+			await ReloadPlace();
+			IsConnected = _tokenService.Value.HasToken();
+		}
 
-        private async Task ReloadPlace()
-        {
-            var place = await _placeService.Value.GetPlace(Id);
-            Name = place.Name;
-            Description = place.Description;
-            Latitude = place.Latitude;
-            Longitude = place.Longitude;
-            CommentList.Clear();
-            place.CommentList?.ForEach(x => CommentList.Add(x));
-            ImageUrl = place.ImageUrl;
-        }
+		private async Task ReloadPlace()
+		{
+			var place = await _placeService.Value.GetPlace(Id);
+			Name = place.Title;
+			Description = place.Description;
+			Latitude = place.Latitude;
+			Longitude = place.Longitude;
+			CommentList.Clear();
+			place.CommentList?.ForEach(x => CommentList.Add(x));
+			ImageUrl = place.ImageUrl;
+		}
 
-        private async void PublishNewCommentAction()
-        {
-            if (!string.IsNullOrEmpty(Comment))
-            {
-                await _placeService.Value.PostComment(Id, Comment);
-                Comment = string.Empty;
-                await ReloadPlace();
-            }
-        }
-    }
+		private async void PublishNewCommentAction()
+		{
+			if (!string.IsNullOrEmpty(Comment))
+			{
+				await _placeService.Value.PostComment(Id, Comment);
+				Comment = string.Empty;
+				await ReloadPlace();
+			}
+		}
+	}
 }

@@ -4,63 +4,95 @@ using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
+using Plugin.Media;
 
 namespace AlbumLieux.ViewModels
 {
-    public class UpdateProfileViewModel : ViewModelBase
-    {
-        private Lazy<IProfileDataService> _profileService;
 
-        #region Properties
+	public class UpdateProfileViewModel : BaseMediaViewModel
+	{
+		private readonly Lazy<IProfileDataService> _profileService;
 
-        private string _firstName;
+		#region Properties
 
-        public string FirstName
-        {
-            get => _firstName;
-            set => SetProperty(ref _firstName, value);
-        }
+		private string _firstName;
 
-        private string _lastName;
+		public string FirstName
+		{
+			get => _firstName;
+			set => SetProperty(ref _firstName, value);
+		}
 
-        public string LastName
-        {
-            get => _lastName;
-            set => SetProperty(ref _lastName, value);
-        }
+		private string _lastName;
 
-        #endregion
+		public string LastName
+		{
+			get => _lastName;
+			set => SetProperty(ref _lastName, value);
+		}
 
-        public ICommand UpdateProfileCommand { get; }
+		public int? ImageId { get; set; }
 
-        public UpdateProfileViewModel()
-        {
-            _profileService = new Lazy<IProfileDataService>(() => DependencyService.Resolve<IProfileDataService>());
+		private string _imageUrl;
+		public string ImageUrl
+		{
+			get => _imageUrl;
+			set => SetProperty(ref _imageUrl, value);
+		}
 
-            UpdateProfileCommand = new Command(UpdateProfileAction);
-        }
+		#endregion
 
-        public override async Task OnResume()
-        {
-            await base.OnResume();
-            if (string.IsNullOrEmpty(FirstName) || string.IsNullOrEmpty(LastName))
-            {
-                var user = await _profileService.Value.GetMe();
-                if (string.IsNullOrEmpty(FirstName))
-                {
-                    FirstName = user.FirstName;
-                }
+		public ICommand UpdateCommand { get; }
+		public ICommand UpdateImageFromGalleryCommand { get; }
+		public ICommand UpdateImageFromPhotoCommand { get; }
 
-                if (string.IsNullOrEmpty(LastName))
-                {
-                    LastName = user.LastName;
-                }
-            }
-        }
+		public UpdateProfileViewModel()
+		{
+			_profileService = new Lazy<IProfileDataService>(() => DependencyService.Resolve<IProfileDataService>());
 
-        public async void UpdateProfileAction()
-        {
-            //TODO
-        }
-    }
+			UpdateCommand = new Command(UpdateProfileAction);
+			UpdateImageFromGalleryCommand = new Command(UpdateImageFromGalleryAction);
+			UpdateImageFromPhotoCommand = new Command(UpdateImageFromPhotoAction);
+		}
+
+		public override async Task OnResume()
+		{
+			await base.OnResume();
+			if (string.IsNullOrEmpty(FirstName) || string.IsNullOrEmpty(LastName) || string.IsNullOrEmpty(ImageUrl))
+			{
+				var user = await _profileService.Value.GetMe();
+				if (string.IsNullOrEmpty(FirstName))
+				{
+					FirstName = user.FirstName;
+				}
+
+				if (string.IsNullOrEmpty(LastName))
+				{
+					LastName = user.LastName;
+				}
+
+				if (string.IsNullOrEmpty(ImageUrl))
+				{
+					ImageId = user.ImageId;
+					ImageUrl = user.ImageUrl;
+				}
+			}
+		}
+
+		public async void UpdateProfileAction()
+		{
+			await _profileService.Value.UpdateMe(FirstName, LastName, ImageId ?? 0);
+			await NavigationService.PopAsync();
+		}
+
+		public async void UpdateImageFromGalleryAction()
+		{
+			var mediafile = await PickFromGallery();
+		}
+
+		public async void UpdateImageFromPhotoAction()
+		{
+			var mediafile = await PickFromPhoto();
+		}
+	}
 }

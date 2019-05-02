@@ -110,6 +110,7 @@
     <AndroidResource Include="Resources\drawable-xhdpi\loading.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\ic_close.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\default_user.png" />
+    <AndroidResource Include="Resources\xml\paths.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\lib\Storm.Mvvm.Forms\Storm.Mvvm.Forms\Storm.Mvvm.Forms.csproj">

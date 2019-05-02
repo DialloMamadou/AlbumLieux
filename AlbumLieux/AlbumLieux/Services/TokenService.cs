@@ -28,9 +28,10 @@ namespace AlbumLieux.Services
 
         public void AddToken(Token tokens)
         {
-            var timeSpanExpiresIn = TimeSpan.FromSeconds(tokens.ExpiresIn);
-            tokens.ExpiresAt = DateTime.Now + timeSpanExpiresIn;
-            Barrel.Current.Add(TOKENS, tokens, timeSpanExpiresIn);
+            tokens.ExpiresAt = DateTime.Now.Add(TimeSpan.FromSeconds(tokens.ExpiresIn));
+            //au delà de 60 jours, même s'il était connecté, l'utilisateur devra se reconnecter
+            //valeur fixé arbitrairement
+            Barrel.Current.Add(TOKENS, tokens, TimeSpan.FromDays(60));
         }
 
         public void Disconnect()

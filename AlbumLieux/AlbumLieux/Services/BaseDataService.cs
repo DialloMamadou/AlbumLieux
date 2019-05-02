@@ -58,6 +58,20 @@ namespace AlbumLieux.Services
             return JsonConvert.DeserializeObject<Response<TResult>>(contentResponse);
         }
 
+        protected async Task<Response<TResult>> PostAsync<TResult>(string uri, HttpContent body, bool authenticated = false)
+        {
+            var msg = new HttpRequestMessage(HttpMethod.Post, uri);
+            msg.Content = body;
+            if (authenticated)
+            {
+                await SetAuthenticationToken(msg);
+            }
+
+            var response = await SendRequest(msg);
+            var contentResponse = await response.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<Response<TResult>>(contentResponse);
+        }
+
         protected async Task<Response<TResult>> PatchAsync<TResult, TRequest>(string uri, TRequest data, bool authenticated = false)
         {
             var msg = new HttpRequestMessage(new HttpMethod("PATCH"), uri);

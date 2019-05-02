@@ -40,7 +40,7 @@ namespace AlbumLieux.Services
         {
             var response = await PostAsync<Token, RefreshRequest>("/auth/refresh", new RefreshRequest
             {
-                RefreshToken = _tokenService.Value.GetToken().RefreshToken
+                RefreshToken = refreshToken
             });
 
             if (response.IsSuccess)

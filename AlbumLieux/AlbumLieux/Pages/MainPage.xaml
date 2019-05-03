@@ -8,7 +8,7 @@
     x:Class="AlbumLieux.MainPage"
     Title="Album">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Command="{Binding ProfileCommand}" Icon="user.png" Order="Primary" Priority="0"/>
+        <ToolbarItem Command="{Binding ProfileCommand}" Icon="user.png" />
     </ContentPage.ToolbarItems>
     <ListView ItemsSource="{Binding SpotList}" 
               SelectedItem="{Binding SelectedPlace, Mode=TwoWay}"

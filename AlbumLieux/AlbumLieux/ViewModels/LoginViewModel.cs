@@ -53,11 +53,18 @@ namespace AlbumLieux.ViewModels
 		#endregion
 
 		public ICommand ConnectCommand { get; }
+		public ICommand RegisterCommand { get; }
 
 		public LoginViewModel()
 		{
 			_userService = new Lazy<IUserDataService>(() => DependencyService.Resolve<IUserDataService>());
 			ConnectCommand = new Command(ConnectAction);
+			RegisterCommand = new Command(RegisterAction);
+		}
+
+		private async void RegisterAction()
+		{
+			await NavigationService.PushAsync<RegisterPage>();
 		}
 
 		private async void ConnectAction()

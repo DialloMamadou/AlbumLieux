@@ -4,9 +4,15 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converters="clr-namespace:AlbumLieux.Converters"
     xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
     x:Class="AlbumLieux.Pages.UpdateProfilePage"
     Title="Mise à jour profil">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:StringToVisibility x:Key="visibility" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ScrollView>
         <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand">
             <ffimageloading:CachedImage 
@@ -26,7 +32,7 @@
             <StackLayout Orientation="Horizontal"
                          HorizontalOptions="Center">
                 <Button Text="Galerie" Command="{Binding UpdateImageFromGalleryCommand}"/>
-                <Button Text="Appareil photo" Command="{Binding UpdateImageFromPhotoCommand}"/>
+                <Button Text="Appareil photo" Command="{Binding UpdateImageFromCameraCommand}"/>
             </StackLayout>
             <Entry Text="{Binding FirstName}"/>
             <Entry Text="{Binding LastName}"/>

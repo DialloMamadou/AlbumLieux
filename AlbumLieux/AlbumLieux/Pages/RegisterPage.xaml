@@ -19,7 +19,7 @@
         <Label Text="{Binding FirstNameError}" FontSize="Small" TextColor="Red" IsVisible="{Binding FirstNameError, Converter={StaticResource visibility}}"/>
         <Entry Text="{Binding LastName}" Placeholder="Doe" Keyboard="Email" ReturnType="Next"/>
         <Label Text="{Binding LastNameError}" FontSize="Small" TextColor="Red" IsVisible="{Binding LastNameError, Converter={StaticResource visibility}}"/>
-        <Entry Text="{Binding Password}" IsPassword="True" Placeholder="Password" ReturnCommand="{Binding ConnectCommand}" Keyboard="Plain"/>
+        <Entry Text="{Binding Password}" IsPassword="True" Placeholder="Password" ReturnCommand="{Binding RegisterCommand}" Keyboard="Plain"/>
         <Label Text="{Binding PasswordError}" FontSize="Small" TextColor="Red" IsVisible="{Binding PasswordError, Converter={StaticResource visibility}}"/>
         <Button Text="S'enregistrer" Command="{Binding RegisterCommand}" />
     </StackLayout>

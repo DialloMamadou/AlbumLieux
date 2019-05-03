@@ -55,7 +55,7 @@ namespace AlbumLieux.ViewModels
 			return await CrossMedia.Current.PickPhotoAsync();
 		}
 
-		protected async Task<MediaFile> PickFromPhoto()
+		protected async Task<MediaFile> PickFromCamera()
 		{
 			if (!_isInitialized)
 			{

@@ -42,7 +42,7 @@ namespace AlbumLieux.ViewModels
 
         public ICommand UpdateCommand { get; }
         public ICommand UpdateImageFromGalleryCommand { get; }
-        public ICommand UpdateImageFromPhotoCommand { get; }
+        public ICommand UpdateImageFromCameraCommand { get; }
 
         public UpdateProfileViewModel()
         {
@@ -51,7 +51,7 @@ namespace AlbumLieux.ViewModels
 
             UpdateCommand = new Command(UpdateProfileAction);
             UpdateImageFromGalleryCommand = new Command(UpdateImageFromGalleryAction);
-            UpdateImageFromPhotoCommand = new Command(UpdateImageFromPhotoAction);
+            UpdateImageFromCameraCommand = new Command(UpdateImageFromCameraAction);
         }
 
         public override async Task OnResume()
@@ -78,13 +78,13 @@ namespace AlbumLieux.ViewModels
             }
         }
 
-        public async void UpdateProfileAction()
+        private async void UpdateProfileAction()
         {
             await _profileService.Value.UpdateMe(FirstName, LastName, ImageId ?? 0);
             await NavigationService.PopAsync();
         }
 
-        public async void UpdateImageFromGalleryAction()
+		private async void UpdateImageFromGalleryAction()
         {
             var mediafile = await PickFromGallery();
             var image = await _imageService.Value.UploadImage(mediafile.GetStream());
@@ -95,9 +95,9 @@ namespace AlbumLieux.ViewModels
             }
         }
 
-        public async void UpdateImageFromPhotoAction()
+		private async void UpdateImageFromCameraAction()
         {
-            var mediafile = await PickFromPhoto();
+            var mediafile = await PickFromCamera();
             var image = await _imageService.Value.UploadImage(mediafile.GetStream());
             if (image != null)
             {

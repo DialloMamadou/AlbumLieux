@@ -74,7 +74,7 @@ namespace AlbumLieux.Services
 				ImageId = imageId,
 				Latitude = latitude,
 				Longitude = longitude
-			});
+			}, authenticated: true);
 
 			Barrel.Current.Empty(CACHE_LIST_KEY);
 		}

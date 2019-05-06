@@ -52,7 +52,10 @@ namespace AlbumLieux.ViewModels
 
 			await CheckPermissions(Permission.Photos);
 
-			return await CrossMedia.Current.PickPhotoAsync();
+			return await CrossMedia.Current.PickPhotoAsync(new PickMediaOptions
+            {
+                CompressionQuality = 85
+            });
 		}
 
 		protected async Task<MediaFile> PickFromCamera()
@@ -71,7 +74,7 @@ namespace AlbumLieux.ViewModels
 
 			return await CrossMedia.Current.TakePhotoAsync(new StoreCameraMediaOptions
 			{
-				CompressionQuality = 90
+				CompressionQuality = 85
 			});
 		}
 	}

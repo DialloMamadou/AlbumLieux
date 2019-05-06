@@ -14,6 +14,8 @@
     </ContentPage.ToolbarItems>
     <RelativeLayout>
         <ListView
+            RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=1}"
+            RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"
             ItemsSource="{Binding SpotList}"
             SelectedItem="{Binding SelectedPlace, Mode=TwoWay}"
             SeparatorColor="Black"
@@ -50,10 +52,15 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <ImageButton
+        <ImageButton 
             Source="plus.png"
             Command="{Binding AddCommand}"
-            RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent Property=Width Factor=1 Constant=-100}"
-            RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent Property=Height Factor=1 Constant=-100}" />
+            BackgroundColor="Red"
+            RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1, Constant=-60}"
+            RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=1, Constant=-60}"
+            HeightRequest="40"
+            WidthRequest="40"
+            IsVisible="{Binding IsConnected}"
+            />
     </RelativeLayout>
 </storm:BaseContentPage>

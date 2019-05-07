@@ -1,9 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="com.companyname.AlbumLieux" android:installLocation="auto">
-	<uses-sdk android:minSdkVersion="16" android:targetSdkVersion="27" />
-	<application android:label="AlbumLieux.Android">
-		<provider android:name="android.support.v4.content.FileProvider" android:authorities="${applicationId}.fileprovider" android:exported="false" android:grantUriPermissions="true">
-			<meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/paths"></meta-data>
-		</provider>
-	</application>
+  <uses-sdk android:minSdkVersion="16" android:targetSdkVersion="27" />
+  <application android:label="AlbumLieux.Android">
+    <provider android:name="android.support.v4.content.FileProvider" android:authorities="${applicationId}.fileprovider" android:exported="false" android:grantUriPermissions="true">
+      <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/paths"></meta-data>
+    </provider>
+    <uses-library android:name="org.apache.http.legacy" android:required="false" />
+  </application>
 </manifest>

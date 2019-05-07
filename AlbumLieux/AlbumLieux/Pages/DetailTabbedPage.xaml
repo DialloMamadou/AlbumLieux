@@ -29,6 +29,7 @@
         </ScrollView>
     </ContentPage>
     <ContentPage Title="Map">
+        <views:BindableMap  MapPosition="{Binding Position}" MapPins="{Binding MapPin}"/>
     </ContentPage>
     <ContentPage Title="Commentaires">
         <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand">

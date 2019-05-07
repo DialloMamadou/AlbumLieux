@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
+using Xamarin.Forms.Maps;
 
 namespace AlbumLieux.ViewModels
 {
@@ -27,21 +28,15 @@ namespace AlbumLieux.ViewModels
 			set => SetProperty(ref _description, value);
 		}
 
-		private double _latitude;
-		public double Latitude
-		{
-			get => _latitude;
-			set => SetProperty(ref _latitude, value);
-		}
+        private Position _position;
 
-		private double _longitude;
-		public double Longitude
-		{
-			get => _longitude;
-			set => SetProperty(ref _longitude, value);
-		}
+        public Position Position
+        {
+            get => _position;
+            set => SetProperty(ref _position, value);
+        }
 
-		private string _name;
+        private string _name;
 		public string Name
 		{
 			get => _name;
@@ -73,6 +68,8 @@ namespace AlbumLieux.ViewModels
 
 		public ObservableCollection<Comment> CommentList { get; }
 
+        public ObservableCollection<Pin> MapPin { get; }
+
 		#endregion
 
 		public ICommand PublishNewCommentCommand { get; }
@@ -82,7 +79,8 @@ namespace AlbumLieux.ViewModels
 			PublishNewCommentCommand = new Command(PublishNewCommentAction);
 
 			CommentList = new ObservableCollection<Comment>();
-		}
+			MapPin = new ObservableCollection<Pin>();
+        }
 
 		public override async Task OnResume()
 		{
@@ -96,8 +94,13 @@ namespace AlbumLieux.ViewModels
 			var place = await _placeService.Value.GetPlace(Id);
 			Name = place.Title;
 			Description = place.Description;
-			Latitude = place.Latitude;
-			Longitude = place.Longitude;
+            Position = new Position(place.Latitude, place.Longitude);
+            MapPin.Clear();
+            MapPin.Add(new Pin()
+            {
+                Position = Position,
+                Label = place.Title
+            });
 			CommentList.Clear();
 			place.CommentList?.ForEach(x => CommentList.Add(x));
 			ImageUrl = place.ImageUrl;

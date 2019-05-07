@@ -34,32 +34,18 @@ namespace AlbumLieux.ViewModels
 			set => SetProperty(ref _description, value);
 		}
 
-		private double? _latitude;
-		public double? Latitude
+		private double _latitude;
+		public double Latitude
 		{
 			get => _latitude;
 			set => SetProperty(ref _latitude, value);
 		}
 
-		private string _latitudeError;
-		public string LatitudeError
-		{
-			get => _latitudeError;
-			set => SetProperty(ref _latitudeError, value);
-		}
-
-		private double? _longitude;
-		public double? Longitude
+		private double _longitude;
+		public double Longitude
 		{
 			get => _longitude;
 			set => SetProperty(ref _longitude, value);
-		}
-
-		private string _longitudeError;
-		public string LongitudeError
-		{
-			get => _longitudeError;
-			set => SetProperty(ref _longitudeError, value);
 		}
 
 		private string _imageUrl;
@@ -95,21 +81,9 @@ namespace AlbumLieux.ViewModels
 				error = true;
 			}
 
-			if (!Latitude.HasValue)
-			{
-				LatitudeError = "Veuillez indiquer une latitude";
-				error = true;
-			}
-
-			if (!Longitude.HasValue)
-			{
-				LongitudeError = "Veuillez indidiquer une longitude";
-				error = true;
-			}
-
 			if (!error)
 			{
-				await _placeService.Value.AddPlace(Title, Description, ImageId, Latitude.Value, Longitude.Value);
+				await _placeService.Value.AddPlace(Title, Description, ImageId, Latitude, Longitude);
 				await NavigationService.PopAsync();
 			}
 		}

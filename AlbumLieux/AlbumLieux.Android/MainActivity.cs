@@ -16,7 +16,8 @@ namespace AlbumLieux.Droid
 
 			base.OnCreate(savedInstanceState);
 			global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
-			FFImageLoading.Forms.Platform.CachedImageRenderer.Init(false);
+            Xamarin.FormsMaps.Init(this, savedInstanceState);
+            FFImageLoading.Forms.Platform.CachedImageRenderer.Init(false);
 			CrossCurrentActivity.Current.Init(this, savedInstanceState);
 
 			LoadApplication(new App());

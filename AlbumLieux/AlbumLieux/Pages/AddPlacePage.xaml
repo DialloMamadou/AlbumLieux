@@ -25,54 +25,50 @@
                 DownsampleToViewSize="True"
                 BackgroundColor="Red"
                 HeightRequest="242" />
-            <StackLayout
+            <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand" Padding="6,0,6,0">
+                <StackLayout
                 Orientation="Horizontal"
                 HorizontalOptions="Center">
-                <Button
+                    <Button
                     Text="Galerie"
                     Command="{Binding PickImageFromGalleryCommand}" />
-                <Button
+                    <Button
                     Text="Appareil photo"
                     Command="{Binding PickImageFromCameraCommand}" />
+                </StackLayout>
+                <Label Text="Titre"/>
+                <Entry
+                    Text="{Binding Title}"  
+                    Placeholder="Paris"  
+                    ReturnType="Next"/>
+                <Label     
+                    Text="{Binding TitleError}"      
+                    IsVisible="{Binding TitleError, Converter={StaticResource visibility}}"         
+                    TextColor="Red"
+                    FontSize="Small" />
+                <Label Text="Description" />
+                <Entry
+                    Text="{Binding Description}" 
+                    Placeholder="Lorem ipsum ..."
+                    ReturnType="Next"/>
+                <Label Text="Latitude" />
+                <Entry
+                    Text="{Binding Latitude}"
+                    Keyboard="Numeric"
+                    ReturnType="Next" />
+                <Label Text="Longitude"/>
+                <Entry
+                    Text="{Binding Longitude}"
+                    Keyboard="Numeric"
+                    ReturnCommand="{Binding AddCommand}" />
+                <Button
+                    Text="Utiliser ma position"
+                    Command="{Binding TakeMyLocationCommand}"
+                    HorizontalOptions="End" />
+                <Button
+                    Text="Ajouter"
+                    Command="{Binding AddCommand}" />
             </StackLayout>
-            <Entry
-                Text="{Binding Title}"
-                Placeholder="Nom du lieu"
-                ReturnType="Next"/>
-            <Label
-                Text="{Binding TitleError}"
-                IsVisible="{Binding TitleError, Converter={StaticResource visibility}}"
-                TextColor="Red"
-                FontSize="Small" />
-            <Entry
-                Text="{Binding Description}" 
-                Placeholder="Description du lieu ..."
-                ReturnType="Next"/>
-            <Entry
-                Text="{Binding Latitude}"
-                Placeholder="Latitude"
-                ReturnType="Next" />
-            <Label
-                Text="{Binding LatitudeError}"
-                IsVisible="{Binding LatitudeError, Converter={StaticResource visibility}}"
-                TextColor="Red"
-                FontSize="Small " />
-            <Entry
-                Text="{Binding Longitude}"
-                Placeholder="Longitude"
-                ReturnCommand="{Binding AddCommand}" />
-            <Label
-                Text="{Binding LongitudeError}"
-                IsVisible="{Binding LongitudeError, Converter={StaticResource visibility}}"
-                TextColor="Red"
-                FontSize="Small" />
-            <Button
-                Text="Utiliser ma position"
-                Command="{Binding TakeMyLocationCommand}"
-                HorizontalOptions="End" />
-            <Button
-                Text="Ajouter"
-                Command="{Binding AddCommand}" />
         </StackLayout>
     </ScrollView>
 </forms:BaseContentPage>

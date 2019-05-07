@@ -19,7 +19,8 @@ namespace AlbumLieux.iOS
 		public override bool FinishedLaunching(UIApplication app, NSDictionary options)
 		{
 			global::Xamarin.Forms.Forms.Init();
-			FFImageLoading.Forms.Platform.CachedImageRenderer.Init();
+            Xamarin.FormsMaps.Init();
+            FFImageLoading.Forms.Platform.CachedImageRenderer.Init();
 
 			LoadApplication(new App());
 

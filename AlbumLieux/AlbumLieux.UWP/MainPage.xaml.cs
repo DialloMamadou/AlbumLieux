@@ -20,7 +20,7 @@ namespace AlbumLieux.UWP
         public MainPage()
         {
             this.InitializeComponent();
-
+            Xamarin.FormsMaps.Init("YEoTt2onn0yuND8lkHIc~8nwMGvlWpcw0Hcg52hD-BA~AhdUmyF5szTXASXeARdbyEdHfozYQDrRXf689jWeW8oMMsPTBrcdQrMXF-cXxu-9");
             LoadApplication(new AlbumLieux.App());
         }
     }

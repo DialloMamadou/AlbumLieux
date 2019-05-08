@@ -4,12 +4,14 @@ using Storm.Mvvm;
 using AlbumLieux.Pages;
 using AlbumLieux.Services;
 using Xamarin.Forms;
+using AlbumLieux.Exceptions;
 
 namespace AlbumLieux.ViewModels
 {
 	public class RegisterViewModel : ViewModelBase
 	{
 		private readonly Lazy<IUserDataService> _userService = new Lazy<IUserDataService>(() => DependencyService.Resolve<IUserDataService>());
+		private readonly Lazy<IDialogService> _dialogService = new Lazy<IDialogService>(() => DependencyService.Resolve<IDialogService>());
 
 		#region Properties
 
@@ -107,10 +109,17 @@ namespace AlbumLieux.ViewModels
 
 			if (!error)
 			{
-				await _userService.Value.Register(Email, FirstName, LastName, Password);
-				await NavigationService.PopAsync();
-				await NavigationService.PopAsync();
-				await NavigationService.PushAsync<ProfilePage>();
+				try
+				{
+					await _userService.Value.Register(Email, FirstName, LastName, Password);
+					await NavigationService.PopAsync();
+					await NavigationService.PopAsync();
+					await NavigationService.PushAsync<ProfilePage>();
+				}
+				catch (ApiException apiEx)
+				{
+					await _dialogService.Value.ShowAlertDialog("Erreur", apiEx.ErrorMessage, "Ok");
+				}
 			}
 		}
 	}

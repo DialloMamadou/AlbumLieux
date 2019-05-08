@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AlbumLieux.Exceptions;
 using Plugin.Media;
 using Plugin.Media.Abstractions;
 using Plugin.Permissions;
@@ -34,7 +35,7 @@ namespace AlbumLieux.ViewModels
 
 			if (results.Any(x => x.Value != PermissionStatus.Granted))
 			{
-				throw new NotImplementedException();
+				throw new MissingPermissionException(results.First(x => x.Value != PermissionStatus.Granted).Key.ToString());
 			}
 		}
 
@@ -47,15 +48,15 @@ namespace AlbumLieux.ViewModels
 
 			if (!CrossMedia.IsSupported || !CrossMedia.Current.IsPickPhotoSupported)
 			{
-				throw new NotImplementedException();
+				throw new NotSupportedException();
 			}
 
 			await CheckPermissions(Permission.Photos);
 
 			return await CrossMedia.Current.PickPhotoAsync(new PickMediaOptions
-            {
-                CompressionQuality = 85
-            });
+			{
+				CompressionQuality = 85
+			});
 		}
 
 		protected async Task<MediaFile> PickFromCamera()
@@ -67,7 +68,7 @@ namespace AlbumLieux.ViewModels
 
 			if (!CrossMedia.IsSupported || !CrossMedia.Current.IsPickPhotoSupported || !CrossMedia.Current.IsCameraAvailable)
 			{
-				throw new NotImplementedException();
+				throw new NotSupportedException();
 			}
 
 			await CheckPermissions(Permission.Camera);

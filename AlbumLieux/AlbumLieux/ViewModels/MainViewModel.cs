@@ -9,6 +9,7 @@ using System.Windows.Input;
 using Xamarin.Forms;
 using Plugin.Geolocator.Abstractions;
 using System.Linq;
+using AlbumLieux.Exceptions;
 
 namespace AlbumLieux.ViewModels
 {
@@ -17,6 +18,7 @@ namespace AlbumLieux.ViewModels
 		private readonly Lazy<IPlacesDataServices> _placesService = new Lazy<IPlacesDataServices>(() => DependencyService.Get<IPlacesDataServices>());
 		private readonly Lazy<ITokenService> _tokenService = new Lazy<ITokenService>(() => DependencyService.Get<ITokenService>());
 		private readonly Lazy<IGeolocationService> _geoService = new Lazy<IGeolocationService>(() => DependencyService.Get<IGeolocationService>());
+		private readonly Lazy<IDialogService> _dialogService = new Lazy<IDialogService>(() => DependencyService.Resolve<IDialogService>());
 
 		public ICommand RefreshCommand { get; }
 		public ICommand ProfileCommand { get; }
@@ -79,10 +81,6 @@ namespace AlbumLieux.ViewModels
 
 				SelectedPlace = null;
 			}
-			catch (Exception e)
-			{
-				Console.WriteLine(e);
-			}
 			finally
 			{
 				IsBusy = false;
@@ -108,20 +106,35 @@ namespace AlbumLieux.ViewModels
 
 		private async Task RefreshList(bool force = false)
 		{
-			var list = await _placesService.Value.ListPlaces(true);
-			var position = await _geoService.Value.GetMyPosition();
+			try
+			{
+				var list = await _placesService.Value.ListPlaces(force);
+				var position = await _geoService.Value.GetMyPosition();
 
-			if (position != null)
-			{
-				SpotList = list.Select(x =>
+				if (position != null)
 				{
-					x.DistanceToMe = position.CalculateDistance(new Position(x.Latitude, x.Longitude), GeolocatorUtils.DistanceUnits.Kilometers);
-					return x;
-				}).OrderBy(x => x.DistanceToMe).ToList();
+					SpotList = list.Select(x =>
+					{
+						x.DistanceToMe = position.CalculateDistance(new Position(x.Latitude, x.Longitude), GeolocatorUtils.DistanceUnits.Kilometers);
+						return x;
+					}).OrderBy(x => x.DistanceToMe).ToList();
+				}
+				else
+				{
+					SpotList = list;
+				}
 			}
-			else
+			catch (NotSupportedException)
 			{
-				SpotList = list;
+				await _dialogService.Value.ShowAlertDialog("Impossible", "L'action demandé est impossible à réaliser sur le device", "Ok");
+			}
+			catch (MissingPermissionException permEx)
+			{
+				await _dialogService.Value.ShowAlertDialog("Permission manquante", $"La permission {permEx.PermissionName} est manquante pour executer l'action demandée", "Ok");
+			}
+			catch (ApiException apiEx)
+			{
+				await _dialogService.Value.ShowAlertDialog("Erreur", apiEx.ErrorMessage, "Ok");
 			}
 		}
 

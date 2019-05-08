@@ -1,5 +1,6 @@
-﻿using System.Windows.Input;
-using System;
+﻿using System;
+using System.Windows.Input;
+using AlbumLieux.Exceptions;
 using AlbumLieux.Services;
 using Xamarin.Forms;
 
@@ -10,6 +11,7 @@ namespace AlbumLieux.ViewModels
 		private readonly Lazy<IGeolocationService> _geoService = new Lazy<IGeolocationService>(() => DependencyService.Resolve<IGeolocationService>());
 		private readonly Lazy<IPlacesDataServices> _placeService = new Lazy<IPlacesDataServices>(() => DependencyService.Resolve<IPlacesDataServices>());
 		private readonly Lazy<IImageService> _imageService = new Lazy<IImageService>(() => DependencyService.Resolve<IImageService>());
+		private readonly Lazy<IDialogService> _dialogService = new Lazy<IDialogService>(() => DependencyService.Resolve<IDialogService>());
 
 		#region Properties
 
@@ -66,6 +68,8 @@ namespace AlbumLieux.ViewModels
 
 		public AddPlaceViewModel()
 		{
+
+
 			PickImageFromGalleryCommand = new Command(UpdateImageFromGalleryAction);
 			PickImageFromCameraCommand = new Command(UpdateImageFromCameraAction);
 			TakeMyLocationCommand = new Command(TakeMyLocationAction);
@@ -83,37 +87,91 @@ namespace AlbumLieux.ViewModels
 
 			if (!error)
 			{
-				await _placeService.Value.AddPlace(Title, Description, ImageId, Latitude, Longitude);
-				await NavigationService.PopAsync();
+				try
+				{
+					await _placeService.Value.AddPlace(Title, Description, ImageId, Latitude, Longitude);
+					await NavigationService.PopAsync();
+				}
+				catch (ApiException apiEx)
+				{
+					await _dialogService.Value.ShowAlertDialog("Erreur", apiEx.ErrorMessage, "Ok");
+				}
 			}
 		}
 
 		private async void TakeMyLocationAction()
 		{
-			var position = await _geoService.Value.GetMyPosition();
-			Latitude = position.Latitude;
-			Longitude = position.Longitude;
+			try
+			{
+				var position = await _geoService.Value.GetMyPosition();
+				Latitude = position.Latitude;
+				Longitude = position.Longitude;
+			}
+			catch (NotSupportedException)
+			{
+				await _dialogService.Value.ShowAlertDialog("Impossible", "L'action demandé est impossible à réaliser sur le device", "Ok");
+			}
+			catch (MissingPermissionException permEx)
+			{
+				await _dialogService.Value.ShowAlertDialog("Permission manquante", $"La permission {permEx.PermissionName} est manquante pour executer l'action demandée", "Ok");
+			}
 		}
 
 		private async void UpdateImageFromGalleryAction()
 		{
-			var mediafile = await PickFromGallery();
-			var image = await _imageService.Value.UploadImage(mediafile.GetStream());
-			if (image != null)
+			try
 			{
-				ImageId = image.Id;
-				ImageUrl = image.Url;
+				var mediafile = await PickFromGallery();
+				if (mediafile != null)
+				{
+					var image = await _imageService.Value.UploadImage(mediafile.GetStream());
+					if (image != null)
+					{
+						ImageId = image.Id;
+						ImageUrl = image.Url;
+					}
+				}
+			}
+			catch (NotSupportedException)
+			{
+				await _dialogService.Value.ShowAlertDialog("Impossible", "L'action demandé est impossible à réaliser sur le device", "Ok");
+			}
+			catch (MissingPermissionException permEx)
+			{
+				await _dialogService.Value.ShowAlertDialog("Permission manquante", $"La permission {permEx.PermissionName} est manquante pour executer l'action demandée", "Ok");
+			}
+			catch (ApiException apiEx)
+			{
+				await _dialogService.Value.ShowAlertDialog("Erreur", apiEx.ErrorMessage, "Ok");
 			}
 		}
 
 		private async void UpdateImageFromCameraAction()
 		{
-			var mediafile = await PickFromCamera();
-			var image = await _imageService.Value.UploadImage(mediafile.GetStream());
-			if (image != null)
+			try
 			{
-				ImageId = image.Id;
-				ImageUrl = image.Url;
+				var mediafile = await PickFromCamera();
+				if (mediafile != null)
+				{
+					var image = await _imageService.Value.UploadImage(mediafile.GetStream());
+					if (image != null)
+					{
+						ImageId = image.Id;
+						ImageUrl = image.Url;
+					}
+				}
+			}
+			catch (NotSupportedException)
+			{
+				await _dialogService.Value.ShowAlertDialog("Impossible", "L'action demandé est impossible à réaliser sur le device", "Ok");
+			}
+			catch (MissingPermissionException permEx)
+			{
+				await _dialogService.Value.ShowAlertDialog("Permission manquante", $"La permission {permEx.PermissionName} est manquante pour executer l'action demandée", "Ok");
+			}
+			catch (ApiException apiEx)
+			{
+				await _dialogService.Value.ShowAlertDialog("Erreur", apiEx.ErrorMessage, "Ok");
 			}
 		}
 

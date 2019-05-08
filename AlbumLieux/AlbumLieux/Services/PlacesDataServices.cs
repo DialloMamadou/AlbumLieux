@@ -1,4 +1,5 @@
-﻿using AlbumLieux.Models;
+﻿using AlbumLieux.Exceptions;
+using AlbumLieux.Models;
 using AlbumLieux.Models.Requests;
 using MonkeyCache.SQLite;
 using System;
@@ -31,7 +32,7 @@ namespace AlbumLieux.Services
 			}
 			else
 			{
-				return null;
+				throw new ApiException(response.ErrorCode, response.ErrorMessage);
 			}
 		}
 
@@ -51,17 +52,22 @@ namespace AlbumLieux.Services
 				}
 				else
 				{
-					return null;
+					throw new ApiException(response.ErrorCode, response.ErrorMessage);
 				}
 			}
 		}
 
-		public Task PostComment(uint id, string text)
+		public async Task PostComment(uint id, string text)
 		{
-			return PostAsync($"places/{id}/comments", new PostCommentRequest
+			var response = await PostAsync($"places/{id}/comments", new PostCommentRequest
 			{
 				Text = text
 			}, authenticated: true);
+
+			if (!response.IsSuccess)
+			{
+				throw new ApiException(response.ErrorCode, response.ErrorMessage);
+			}
 		}
 
 

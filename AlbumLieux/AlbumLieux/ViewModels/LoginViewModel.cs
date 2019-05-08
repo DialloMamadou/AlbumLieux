@@ -1,4 +1,5 @@
-﻿using AlbumLieux.Pages;
+﻿using AlbumLieux.Exceptions;
+using AlbumLieux.Pages;
 using AlbumLieux.Services;
 using Storm.Mvvm;
 using System;
@@ -10,7 +11,8 @@ namespace AlbumLieux.ViewModels
 {
 	public class LoginViewModel : ViewModelBase
 	{
-		private readonly Lazy<IUserDataService> _userService;
+		private readonly Lazy<IUserDataService> _userService = new Lazy<IUserDataService>(() => DependencyService.Resolve<IUserDataService>());
+		private readonly Lazy<IDialogService> _dialogService = new Lazy<IDialogService>(() => DependencyService.Resolve<IDialogService>());
 
 		#region Property
 
@@ -57,7 +59,6 @@ namespace AlbumLieux.ViewModels
 
 		public LoginViewModel()
 		{
-			_userService = new Lazy<IUserDataService>(() => DependencyService.Resolve<IUserDataService>());
 			ConnectCommand = new Command(ConnectAction);
 			RegisterCommand = new Command(RegisterAction);
 		}
@@ -86,9 +87,16 @@ namespace AlbumLieux.ViewModels
 
 			if (!error)
 			{
-				await _userService.Value.Connect(Username, Password);
-				await NavigationService.PopAsync();
-				await NavigationService.PushAsync<ProfilePage>();
+				try
+				{
+					await _userService.Value.Connect(Username, Password);
+					await NavigationService.PopAsync();
+					await NavigationService.PushAsync<ProfilePage>();
+				}
+				catch (ApiException apiEx)
+				{
+					await _dialogService.Value.ShowAlertDialog("Erreur", apiEx.ErrorMessage, "Ok");
+				}
 			}
 		}
 	}

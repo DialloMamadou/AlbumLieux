@@ -1,4 +1,5 @@
-﻿using AlbumLieux.Models;
+﻿using AlbumLieux.Exceptions;
+using AlbumLieux.Models;
 using AlbumLieux.Services;
 using Storm.Mvvm;
 using Storm.Mvvm.Navigation;
@@ -15,6 +16,7 @@ namespace AlbumLieux.ViewModels
 	{
 		private readonly Lazy<ITokenService> _tokenService = new Lazy<ITokenService>(() => DependencyService.Get<ITokenService>());
 		private readonly Lazy<IPlacesDataServices> _placeService = new Lazy<IPlacesDataServices>(() => DependencyService.Get<IPlacesDataServices>());
+		private readonly Lazy<IDialogService> _dialogService = new Lazy<IDialogService>(() => DependencyService.Resolve<IDialogService>());
 
 		#region Properties
 
@@ -28,15 +30,15 @@ namespace AlbumLieux.ViewModels
 			set => SetProperty(ref _description, value);
 		}
 
-        private Position _position;
+		private Position _position;
 
-        public Position Position
-        {
-            get => _position;
-            set => SetProperty(ref _position, value);
-        }
+		public Position Position
+		{
+			get => _position;
+			set => SetProperty(ref _position, value);
+		}
 
-        private string _name;
+		private string _name;
 		public string Name
 		{
 			get => _name;
@@ -68,7 +70,7 @@ namespace AlbumLieux.ViewModels
 
 		public ObservableCollection<Comment> CommentList { get; }
 
-        public ObservableCollection<Pin> MapPin { get; }
+		public ObservableCollection<Pin> MapPin { get; }
 
 		#endregion
 
@@ -80,7 +82,7 @@ namespace AlbumLieux.ViewModels
 
 			CommentList = new ObservableCollection<Comment>();
 			MapPin = new ObservableCollection<Pin>();
-        }
+		}
 
 		public override async Task OnResume()
 		{
@@ -91,28 +93,42 @@ namespace AlbumLieux.ViewModels
 
 		private async Task ReloadPlace()
 		{
-			var place = await _placeService.Value.GetPlace(Id);
-			Name = place.Title;
-			Description = place.Description;
-            Position = new Position(place.Latitude, place.Longitude);
-            MapPin.Clear();
-            MapPin.Add(new Pin()
-            {
-                Position = Position,
-                Label = place.Title
-            });
-			CommentList.Clear();
-			place.CommentList?.ForEach(x => CommentList.Add(x));
-			ImageUrl = place.ImageUrl;
+			try
+			{
+				var place = await _placeService.Value.GetPlace(Id);
+				Name = place.Title;
+				Description = place.Description;
+				Position = new Position(place.Latitude, place.Longitude);
+				MapPin.Clear();
+				MapPin.Add(new Pin()
+				{
+					Position = Position,
+					Label = place.Title
+				});
+				CommentList.Clear();
+				place.CommentList?.ForEach(x => CommentList.Add(x));
+				ImageUrl = place.ImageUrl;
+			}
+			catch (ApiException apiEx)
+			{
+				await _dialogService.Value.ShowAlertDialog("Erreur", apiEx.ErrorMessage, "Ok");
+			}
 		}
 
 		private async void PublishNewCommentAction()
 		{
 			if (!string.IsNullOrEmpty(Comment))
 			{
-				await _placeService.Value.PostComment(Id, Comment);
-				Comment = string.Empty;
-				await ReloadPlace();
+				try
+				{
+					await _placeService.Value.PostComment(Id, Comment);
+					Comment = string.Empty;
+					await ReloadPlace();
+				}
+				catch (ApiException apiEx)
+				{
+					await _dialogService.Value.ShowAlertDialog("Erreur", apiEx.ErrorMessage, "Ok");
+				}
 			}
 		}
 	}

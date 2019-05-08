@@ -4,12 +4,12 @@ using Xamarin.Forms;
 
 namespace AlbumLieux
 {
-    public partial class MainPage : BaseContentPage
-    {
-        public MainPage()
-        {
-            InitializeComponent();
-            BindingContext = new MainViewModel();
-        }
-    }
+	public partial class MainPage : BaseContentPage
+	{
+		public MainPage()
+		{
+			InitializeComponent();
+			BindingContext = new MainViewModel();
+		}
+	}
 }

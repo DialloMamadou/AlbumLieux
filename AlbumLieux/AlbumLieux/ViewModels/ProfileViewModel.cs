@@ -1,4 +1,5 @@
-﻿using AlbumLieux.Pages;
+﻿using AlbumLieux.Exceptions;
+using AlbumLieux.Pages;
 using AlbumLieux.Services;
 using Storm.Mvvm;
 using System;
@@ -10,8 +11,9 @@ namespace AlbumLieux.ViewModels
 {
 	public class ProfileViewModel : ViewModelBase
 	{
-		private readonly Lazy<IProfileDataService> _profileDataService;
-		private readonly Lazy<ITokenService> _tokenService;
+		private readonly Lazy<IProfileDataService> _profileDataService = new Lazy<IProfileDataService>(() => DependencyService.Resolve<IProfileDataService>());
+		private readonly Lazy<ITokenService> _tokenService = new Lazy<ITokenService>(() => DependencyService.Resolve<ITokenService>());
+		private readonly Lazy<IDialogService> _dialogService = new Lazy<IDialogService>(() => DependencyService.Resolve<IDialogService>());
 
 		private string _imageUrl;
 
@@ -51,9 +53,6 @@ namespace AlbumLieux.ViewModels
 
 		public ProfileViewModel()
 		{
-			_profileDataService = new Lazy<IProfileDataService>(() => DependencyService.Resolve<IProfileDataService>());
-			_tokenService = new Lazy<ITokenService>(() => DependencyService.Resolve<ITokenService>());
-
 			UpdateMeCommand = new Command(UpdateProfileAction);
 			UpdatePasswordCommand = new Command(UpdatePasswordAction);
 			DisconnectCommand = new Command(DisconnectAction);
@@ -70,9 +69,9 @@ namespace AlbumLieux.ViewModels
 				LastName = user.LastName;
 				Email = user.Email;
 			}
-			catch (Exception e)
+			catch (ApiException apiEx)
 			{
-				Console.WriteLine(e);
+				await _dialogService.Value.ShowAlertDialog("Erreur", apiEx.ErrorMessage, "Ok");
 			}
 		}
 

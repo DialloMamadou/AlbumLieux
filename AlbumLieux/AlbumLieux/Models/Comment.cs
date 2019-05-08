@@ -5,10 +5,10 @@ namespace AlbumLieux.Models
 {
 	public class Comment
 	{
-        [JsonProperty("author")]
-        public User Author { get; set; }
+		[JsonProperty("author")]
+		public User Author { get; set; }
 
-        [JsonProperty("date")]
+		[JsonProperty("date")]
 		public DateTime Date { get; set; }
 
 		[JsonProperty("text")]

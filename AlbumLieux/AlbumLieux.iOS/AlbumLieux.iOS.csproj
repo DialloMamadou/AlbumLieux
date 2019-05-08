@@ -188,6 +188,15 @@
     <ImageAsset Include="Assets.xcassets\user.imageset\user%403x.png">
       <Visible>false</Visible>
     </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\plus.imageset\plus%401x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\plus.imageset\plus%402x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\plus.imageset\plus%403x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -229,9 +238,5 @@
       <Project>{835C2AF9-781E-4978-A5D0-2A28C678769E}</Project>
       <Name>AlbumLieux</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Assets.xcassets\default_user.imageset\" />
-    <Folder Include="Assets.xcassets\user.imageset\" />
   </ItemGroup>
 </Project>

@@ -55,7 +55,6 @@
         <ImageButton 
             Source="plus.png"
             Command="{Binding AddCommand}"
-            BackgroundColor="Red"
             RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1, Constant=-60}"
             RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=1, Constant=-60}"
             HeightRequest="40"

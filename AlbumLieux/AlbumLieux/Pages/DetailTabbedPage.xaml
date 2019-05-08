@@ -6,7 +6,7 @@
             xmlns:converters="clr-namespace:AlbumLieux.Converters"
             xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
             xmlns:views="clr-namespace:AlbumLieux.Views"
-            x:Class="AlbumLieux.Pages.DetailTabbedPage"
+            x:Class="AlbumLieux.Pages.DetailTabbedPage" 
             Title="{Binding Name}"
             >
     <TabbedPage.Resources>

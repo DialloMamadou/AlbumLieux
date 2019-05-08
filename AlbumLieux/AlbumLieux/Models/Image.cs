@@ -2,11 +2,11 @@
 
 namespace AlbumLieux.Models
 {
-    public class Image
-    {
-        [JsonProperty("id")]
-        public int Id { get; set; }
+	public class Image
+	{
+		[JsonProperty("id")]
+		public int Id { get; set; }
 
-        public string Url => $"{Constants.BASE_URL}/images/{Id}";
-    }
+		public string Url => $"{Constants.BASE_URL}/images/{Id}";
+	}
 }

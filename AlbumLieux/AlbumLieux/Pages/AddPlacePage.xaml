@@ -23,7 +23,6 @@
                 LoadingPlaceholder="loading.png"
                 ErrorPlaceholder="loading.png"
                 DownsampleToViewSize="True"
-                BackgroundColor="Red"
                 HeightRequest="242" />
             <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand" Padding="6,0,6,0">
                 <StackLayout

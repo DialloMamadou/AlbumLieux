@@ -197,6 +197,7 @@
     <ImageAsset Include="Assets.xcassets\plus.imageset\plus%403x.png">
       <Visible>false</Visible>
     </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\plus.imageset\Contents.json" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
